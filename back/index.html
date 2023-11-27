@@ -1,0 +1,65 @@
+<!-- ... (código HTML existente) ... -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RFID Tags Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>RFID Tags Viewer</h1>
+<p id="currentTag">Current RFID Tag: Loading...</p>
+<p id="currentName"></p>
+<p id="timestamp">Timestamp: Loading...</p>
+
+<script>
+  const socket = new WebSocket("ws://localhost:8082/"); // Lembre-se de ajustar o endereço IP conforme necessário
+  const currentTagElement = document.getElementById("currentTag");
+  const currentNameElement = document.getElementById("currentName");
+  const timestampElement = document.getElementById("timestamp");
+
+  socket.onopen = function(event) {
+    console.log("Conectado ao servidor WebSocket");
+  };
+
+  socket.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+
+    if (data.tag === 'requestName') {
+      // Se o servidor solicitar um nome, não fazemos nada aqui
+      // pois o formulário de registro já deve ter sido preenchido anteriormente
+    } else {
+      currentTagElement.textContent = `Current RFID Tag: ${data.tag}`;
+      currentNameElement.textContent = `Name: ${data.name}`;
+      if (data.timestamp) {
+        timestampElement.textContent = `Timestamp: ${data.timestamp}`;
+      }
+    }
+
+  };
+
+  socket.onclose = function(event) {
+    console.log("Conexão fechada");
+  };
+
+  function showRegistrationForm() {
+    const registrationForm = document.getElementById("registrationForm");
+    registrationForm.style.display = "block";
+
+    // Lidar com o envio do formulário de registro
+    registrationForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const tagNameElement = document.getElementById("tagName");
+      const name = tagNameElement.value;
+
+      // Enviar o nome associado à tag RFID
+      socket.send(`${name}`);
+      registrationForm.style.display = "none";
+    });
+  }
+</script>
