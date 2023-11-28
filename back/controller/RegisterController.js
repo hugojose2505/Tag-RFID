@@ -1,7 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const moment = require("moment");
 
-const RegisterController = async ({  tag }) => {
+
+const RegisterController = async ({ tag}) => {
   try {
     const existingTag = await prisma.user.findUnique({
       where: { tag: tag },
@@ -11,13 +13,9 @@ const RegisterController = async ({  tag }) => {
       where: { tag: tag },
     });
 
-    const dados = getTag?.id
+    const dados = getTag?.id;
 
-    console.log(dados)
-    const currentDate = new Date();
-
-    
-
+    console.log(dados);
     if (!existingTag) {
       return {
         success: false,
@@ -33,15 +31,18 @@ const RegisterController = async ({  tag }) => {
         exit: null,
       },
     });
-  
-    if(activeRegister?.active === true) {
+
+    //let date = moment().format("YYYY-MM-DD HH:mm:ss");
+    let date = moment().subtract({h: 3})
+
+    if (activeRegister?.active === true) {
       const registerUpdate = await prisma.register_hours.update({
         where: {
           id_register: activeRegister.id_register,
         },
         data: {
-          exit: currentDate,
-          updated_at: currentDate,
+          exit: date,
+          updated_at: date,
           active: false,
         },
       });
@@ -51,19 +52,19 @@ const RegisterController = async ({  tag }) => {
         message: "Saída registrada com sucesso",
         data: registerUpdate,
       };
-    }else{
+    } else {
       const register = await prisma.register_hours.create({
         data: {
-          input: currentDate,
+          input: date,
           exit: null,
-          created_at: currentDate,
+          created_at: date,
           updated_at: null,
           delete_at: null,
           active: true,
           user: {
             connect: {
-              id: dados
-            }
+              id: dados,
+            },
           },
         },
       });

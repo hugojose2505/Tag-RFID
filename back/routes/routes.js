@@ -119,7 +119,7 @@ router.post("/associate-tag", async (req, res) => {
 
 router.put("/register", async (req, res) => {
   try {
-    const { id_user, tag } = req.body;
+    const { id_user, tag,input, exit } = req.body;
     const result = await RegisterController({ id_user, tag });
     res.json(result);
   } catch (error) {
