@@ -29,6 +29,8 @@ const RegView = () => {
     setModalIsOpen(false);
   };
 
+  
+
   return (
     <div className=" m-auto mt-32 flex flex-col">
       <h1 className="text-2xl font-bold mb-4 items-center justify-center text-center">

@@ -24,9 +24,9 @@ const Navbar = () => {
           {isMenuOpen ? "Fechar" : "Menu"}
         </button>
         <div
-          className={`sm:flex sm:space-x-4" ${
+          className={`sm:flex sm:space-x-4" gap-8 ${
             isMenuOpen ? "flex" : "hidden"
-          } top-16 left-0 right-0 p-4`}
+          } top-16 left-0 right-0 p-8`}
         >
           <Link
             to="/tag-form"
