@@ -16,6 +16,8 @@ const RegisterController = async ({  tag }) => {
     console.log(dados)
     const currentDate = new Date();
 
+    
+
     if (!existingTag) {
       return {
         success: false,
@@ -31,8 +33,7 @@ const RegisterController = async ({  tag }) => {
         exit: null,
       },
     });
-    console.log(activeRegister?.active)
-
+  
     if(activeRegister?.active === true) {
       const registerUpdate = await prisma.register_hours.update({
         where: {
@@ -72,11 +73,6 @@ const RegisterController = async ({  tag }) => {
         data: register,
       };
     }
-
-   
-    
-
-   
   } catch (error) {
     console.error("Erro ao processar dados:", error);
     return {

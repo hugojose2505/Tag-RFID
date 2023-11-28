@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useWebSocket from 'react-use-websocket';
+import Modal from 'react-modal';
 import "../index.css";
 
 const TagForm = () => {
@@ -11,6 +12,7 @@ const TagForm = () => {
 
   const socketUrl = 'ws://localhost:8082/';
   const { lastMessage} = useWebSocket(socketUrl);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -21,6 +23,16 @@ const TagForm = () => {
 
   const handleNameChange = (e) => {
     setName(e.target.value);
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSavedMessage(''); // Clear saved message when closing the modal
   };
 
   const handleCpfChange = (e) => {
@@ -37,11 +49,13 @@ const TagForm = () => {
       });
 
       // Exibir mensagem de sucesso para o usuário
-      setSavedMessage('Tag associated and saved in the database!');
+      setSavedMessage('Tag criada e associada com sucesso!');
+      openModal();
     } catch (error) {
       // Se houver um erro, exibir a mensagem de erro ou lidar com ele conforme necessário
       console.error('Error processing data:', error);
-      setSavedMessage('Error saving tag in the database.');
+      setSavedMessage('Erro ao Salvar a Tag!');
+      openModal();
     }
   };
 
@@ -78,9 +92,19 @@ const TagForm = () => {
         >
           Save Tag
         </button>
+
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          contentLabel="Tag Saved"
+          className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md"
+          overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        >
+          <p>{savedMessage}</p>
+          <button onClick={closeModal} className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">Close</button>
+        </Modal>
   
-        {/* Span para mostrar a mensagem de sucesso ou erro */}
-        {savedMessage && <span className=" p-2 text-green-600">{savedMessage}</span>}
+        
       </div>
     );
   };

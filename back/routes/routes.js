@@ -49,6 +49,28 @@ router.get("/tags/:tag", async (req, res) => {
   }
 });
 
+router.get("/register", async (req, res) => {
+  try {
+    const tags = await prisma.register_hours.findMany({
+      select: {
+        id_user: true,
+        created_at: true,
+        exit: true,
+        id_register: true,
+        input: true,
+        active: true,
+        updated_at: true,
+        delete_at: true,
+        user: true,
+      },
+    });
+    res.json(tags);
+  } catch (error) {
+    console.error("Erro ao obter tags:", error);
+    res.status(500).json({ error: "Erro ao obter tags" });
+  }
+});
+
 router.get("/tags", async (req, res) => {
   try {
     const tags = await prisma.user.findMany({
