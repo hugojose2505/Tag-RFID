@@ -60,7 +60,7 @@ const TagForm = () => {
   };
 
   return (
-      <div className="my-8 container mx-5 p-8 bg-slate-300 border border-gray-300 rounded-md mt-24 ">
+      <div className="container m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-md mt-52 ">
         <h1 className="text-3xl font-bold mb-4 text-center">Cadastro de Tag</h1>
         <p id="currentTag" className="text-xl mb-4 font-bold">RFID Tag: {currentTag}</p>
   
