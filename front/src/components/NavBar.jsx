@@ -36,17 +36,32 @@ const Navbar = () => {
           >
             Cadastrar Tag
           </Link>
+
+          <Link
+              to="/cadastrarOS"
+              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/cadastrarOS') ? 'border-gray-800' : ''}`}
+            >
+             Criar OS
+          </Link>
+          <Link
+              to="/associarOS"
+              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/associarOS') ? 'border-gray-800' : ''}`}
+            >
+              Associar OS
+            </Link>
+          
+          <Link to="/">
+            <img src={logo} alt="Logo" className="h-20 " />
+          </Link>
+
+          <div className="flex space-x-4">
+
           <Link
             to="/tag-view"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/tag-view') ? 'border-gray-800' : ''}`}
           >
             Visualizar Tags
           </Link>
-          <Link to="/">
-            <img src={logo} alt="Logo" className="h-20 " />
-          </Link>
-
-          <div className="flex space-x-4">
             <Link
               to="/registrar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/registrar') ? 'border-gray-800' : ''}`}
@@ -59,6 +74,10 @@ const Navbar = () => {
             >
               Visualizar Registros
             </Link>
+
+          
+
+            
           </div>
         </div>
       </div>

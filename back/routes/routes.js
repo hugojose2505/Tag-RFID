@@ -4,6 +4,7 @@ const { createTag } = require("../controller/tagController");
 const { RegisterController } = require("../controller/RegisterController");
 const { RegisterUpdateController } = require("../controller/RegisterUpdateController");
 const { PrismaClient } = require("@prisma/client");
+const { OsController } = require("../controller/OsController");
 const prisma = new PrismaClient();
 
 router.post("/api/tags", async (req, res) => {
@@ -30,24 +31,6 @@ router.post("/api/tags", async (req, res) => {
   }
 });
 
-router.get("/tags/:tag", async (req, res) => {
-  const tag = req.params.tag;
-
-  try {
-    const tagInfo = await prisma.user.findUnique({
-      where: { tag: tag },
-    });
-
-    if (tagInfo) {
-      return res.json({ tag: tagInfo.tag });
-    } else {
-      return res.status(404).json({ error: "Tag not found" });
-    }
-  } catch (error) {
-    console.error("Erro ao obter informações da tag:", error);
-    return res.status(500).json({ error: "Erro interno do servidor" });
-  }
-});
 
 router.get("/register", async (req, res) => {
   try {
@@ -71,6 +54,7 @@ router.get("/register", async (req, res) => {
   }
 });
 
+
 router.get("/tags", async (req, res) => {
   try {
     const tags = await prisma.user.findMany({
@@ -78,6 +62,7 @@ router.get("/tags", async (req, res) => {
         tag: true,
         name: true,
         cpf: true,
+        id: true,
       },
     });
     res.json(tags);
@@ -150,6 +135,65 @@ router.patch('/register/', async (req, res) => {
     });
   }
 });
+
+router.post("/createOS", async (req, res) => {
+  try {
+    const { description } = req.body;
+    const order = await OsController(description);
+    res.status(201).json(order);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post('/joinOS', async (req, res) => {
+  const { orderId, userId } = req.body;
+
+  try {
+    // Verificar se a ServiceOrder e User existem
+    const serviceOrder = await prisma.serviceOrder.findUnique({
+      where: { id_order: orderId },
+    });
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!serviceOrder || !user) {
+      return res.status(404).json({ error: 'ServiceOrder or User not found' });
+    }
+
+    // Criar a associação no banco de dados
+    const association = await prisma.serviceOrderUser.create({
+      data: {
+        id_order: orderId,
+        id_user: userId,
+      },
+    });
+
+    return res.status(201).json(association);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/orders', async (req, res) => {
+  try {
+    const orders = await prisma.serviceOrder.findMany({
+      include: {
+        users: true,
+      },
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 module.exports = router;

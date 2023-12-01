@@ -5,6 +5,8 @@ import CadastarTag from "./pages/CadastarTag";
 import VisualizarTag from "./pages/VisualizarTag";
 import Registrar from "./pages/Registrar";
 import VisualizarReg from "./pages/VisualizarReg";
+import CadastarOS from "./pages/CadastrarOS";
+import AssociarOS from "./pages/AssociarOS";
 
 export default function Rotas () {
     return (
@@ -14,6 +16,8 @@ export default function Rotas () {
             <Route exact path="/tag-view" Component={VisualizarTag} /> 
             <Route exact path="/registrar" Component={Registrar} />     
             <Route exact path="/visualizar" Component={VisualizarReg} /> 
+            <Route exact path="/cadastrarOS" Component={CadastarOS} /> 
+            <Route exact path="/associarOS" Component={AssociarOS} />
         </Routes>
     );
 }

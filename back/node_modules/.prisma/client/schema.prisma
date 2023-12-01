@@ -7,13 +7,14 @@ datasource db {
   url      = "mysql://root:root@localhost:3306/rfid?schema=public"
 }
 
+
 model User {
   id             String           @id @default(uuid()) @map("user_id")
   tag            String           @unique
   name           String
   cpf            String           @unique
- 
-  Register_hours Register_hours[]
+  register_hours Register_hours[]
+  service_orders ServiceOrderUser[] // Relacionamento modificado
 
   @@map("user")
 }
@@ -30,4 +31,26 @@ model Register_hours {
   delete_at   DateTime ?
 
   @@map("Register_hours")
+}
+
+model ServiceOrder {
+  id_order     String           @id @default(uuid()) @map("order_id")
+  description  String
+  created_at   DateTime         @default(now())
+  updated_at   DateTime ?
+  delete_at    DateTime ?
+  
+  users        ServiceOrderUser[] // Relacionamento modificado
+  @@map("ServiceOrder")
+}
+model ServiceOrderUser {
+  id          String     @id @default(uuid()) @map("service_order_user_id")
+  id_order    String
+  id_user     String
+  order       ServiceOrder @relation(fields: [id_order], references: [id_order])
+  user        User        @relation(fields: [id_user], references: [id])
+
+  @@map("ServiceOrderUser")
+
+  @@unique([id_order, id_user]) // Garante que a combinação id_order e id_user seja única
 }
