@@ -102,6 +102,8 @@ router.post("/associate-tag", async (req, res) => {
   }
 });
 
+
+
 router.put("/register", async (req, res) => {
   try {
     const { id_user, tag,input, exit } = req.body;
@@ -183,10 +185,18 @@ router.get('/orders', async (req, res) => {
   try {
     const orders = await prisma.serviceOrder.findMany({
       include: {
-        users: true,
+        users: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                // ... outras propriedades do usuário, se necessário
+              },
+            },
+          },
+        },
       },
     });
-
     res.json(orders);
   } catch (error) {
     console.error('Error:', error);

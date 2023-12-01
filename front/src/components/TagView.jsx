@@ -36,7 +36,7 @@ const TagView = () => {
           <li key={tag.tag} className="flex">
             <button
               onClick={() => openModal(tag)}
-              className="bg-slate-300 hover:bg-slate-400 hover:text-black text-black font-bold py-2 px-4 rounded"
+              className=" hover:bg-gray-100 hover:text-black text-black font-bold py-2 px-4 bg-white border border-gray-300 rounded-md shadow-md"
             >
               {tag.tag}
               

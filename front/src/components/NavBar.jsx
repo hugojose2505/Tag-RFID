@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { useLocation } from 'react-router-dom';
-
+import { useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
@@ -31,53 +30,69 @@ const Navbar = () => {
           <Link
             to="/tag-form"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-              isPageActive('/tag-form') ? 'border-gray-800' : ''
+              isPageActive("/tag-form") ? "border-gray-800" : ""
             }`}
           >
             Cadastrar Tag
           </Link>
 
           <Link
-              to="/cadastrarOS"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/cadastrarOS') ? 'border-gray-800' : ''}`}
-            >
-             Criar OS
+            to="/cadastrarOS"
+            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              isPageActive("/cadastrarOS") ? "border-gray-800" : ""
+            }`}
+          >
+            Criar OS
           </Link>
           <Link
-              to="/associarOS"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/associarOS') ? 'border-gray-800' : ''}`}
-            >
-              Associar OS
-            </Link>
-          
+            to="/associarOS"
+            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              isPageActive("/associarOS") ? "border-gray-800" : ""
+            }`}
+          >
+            Associar OS
+          </Link>
+
+          <Link
+            to="/registrar"
+            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              isPageActive("/registrar") ? "border-gray-800" : ""
+            }`}
+          >
+            Registrar
+          </Link>
+
           <Link to="/">
             <img src={logo} alt="Logo" className="h-20 " />
           </Link>
 
           <div className="flex space-x-4">
-
-          <Link
-            to="/tag-view"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/tag-view') ? 'border-gray-800' : ''}`}
-          >
-            Visualizar Tags
-          </Link>
             <Link
-              to="/registrar"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/registrar') ? 'border-gray-800' : ''}`}
+              to="/tag-view"
+              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+                isPageActive("/tag-view") ? "border-gray-800" : ""
+              }`}
             >
-              Registrar
+              Visualizar Tags
             </Link>
+
             <Link
               to="/visualizar"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${isPageActive('/visualizar') ? 'border-gray-800' : ''}`}
+              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+                isPageActive("/visualizar") ? "border-gray-800" : ""
+              }`}
             >
               Visualizar Registros
             </Link>
 
-          
-
-            
+            <Link
+              to={"/visualizarOS"}
+              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+                isPageActive("/visualizarOS") ? "border-gray-800" : ""
+              }`}
+            >
+              Visualizar Ordens de Serviço
+            </Link>
           </div>
         </div>
       </div>
