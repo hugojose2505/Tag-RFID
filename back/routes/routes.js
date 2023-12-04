@@ -2,35 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { createTag } = require("../controller/tagController");
 const { RegisterController } = require("../controller/RegisterController");
-const { RegisterUpdateController } = require("../controller/RegisterUpdateController");
 const { PrismaClient } = require("@prisma/client");
 const { OsController } = require("../controller/OsController");
 const prisma = new PrismaClient();
-
-router.post("/api/tags", async (req, res) => {
-  try {
-    const { tag } = req.body;
-    if (!tag) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Tag is required" });
-    }
-
-    const savedData = await createTag({ tag });
-
-    return res.json({
-      success: true,
-      message: "Tag received and saved successfully",
-      data: savedData,
-    });
-  } catch (error) {
-    console.error("Erro ao processar dados:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
-  }
-});
-
 
 router.get("/register", async (req, res) => {
   try {
@@ -53,7 +27,6 @@ router.get("/register", async (req, res) => {
     res.status(500).json({ error: "Erro ao obter tags" });
   }
 });
-
 
 router.get("/tags", async (req, res) => {
   try {
@@ -102,8 +75,6 @@ router.post("/associate-tag", async (req, res) => {
   }
 });
 
-
-
 router.put("/register", async (req, res) => {
   try {
     const { id_user, tag,input, exit } = req.body;
@@ -112,29 +83,6 @@ router.put("/register", async (req, res) => {
   } catch (error) {
     console.error("Error processing data:", error);
     res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-
-router.patch('/register/', async (req, res) => {
-  try {
-    const {  tag } = req.body;
-    const result = await RegisterUpdateController({
-      id_user,
-      tag,
-    });
-
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json(result);
-    }
-  } catch (error) {
-    console.error("Erro ao processar a solicitação:", error);
-    res.status(500).json({
-      success: false,
-      message: "Erro interno do servidor",
-    });
   }
 });
 
@@ -203,7 +151,5 @@ router.get('/orders', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
 
 module.exports = router;
