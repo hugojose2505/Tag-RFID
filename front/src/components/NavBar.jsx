@@ -11,10 +11,11 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  const isPageActive = (path) => location.pathname === path;
-
+  const isPageActive = (path) => {
+    return location.pathname.includes(path);
+  };
   return (
-    <nav className="p-1 fixed w-full flex gap-4 ">
+    <nav className="p-0 fixed w-full flex gap-4 ">
       <div className="container mx-auto flex items-center justify-center w-full">
         <button
           className="lg:hidden text-black focus:outline-none"
@@ -23,14 +24,16 @@ const Navbar = () => {
           {isMenuOpen ? "Fechar" : "Menu"}
         </button>
         <div
-          className={`sm:flex sm:space-x-4" gap-8 ${
-            isMenuOpen ? "flex" : "hidden"
-          } top-16 left-0 right-0 p-8`}
+          className={`sm:flex sm:space-x-4" gap-8  ${
+            isMenuOpen ? "flex " : "hidden"
+          } top-16 left-0 right-0 p-5  `}
         >
           <Link
             to="/tag-form"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-              isPageActive("/tag-form") ? "border-gray-800" : ""
+            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4  rounded font-bold ${
+              isPageActive("/tag-form")
+                ? "border-black m-auto pb-3 "
+                : "m-auto pb-3"
             }`}
           >
             Cadastrar Tag
@@ -39,7 +42,9 @@ const Navbar = () => {
           <Link
             to="/cadastrarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-              isPageActive("/cadastrarOS") ? "border-gray-800" : ""
+              isPageActive("/cadastrarOS")
+                ? "border-black m-auto pb-3 "
+                : "m-auto pb-3"
             }`}
           >
             Criar OS
@@ -47,7 +52,9 @@ const Navbar = () => {
           <Link
             to="/associarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-              isPageActive("/associarOS") ? "border-gray-800" : ""
+              isPageActive("/associarOS")
+                ? "border-black m-auto pb-3 "
+                : "m-auto pb-3"
             }`}
           >
             Associar OS
@@ -56,7 +63,9 @@ const Navbar = () => {
           <Link
             to="/registrar"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-              isPageActive("/registrar") ? "border-gray-800" : ""
+              isPageActive("/registrar")
+                ? "border-black m-auto pb-3 "
+                : "m-auto pb-3"
             }`}
           >
             Registrar
@@ -70,7 +79,9 @@ const Navbar = () => {
             <Link
               to="/tag-view"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/tag-view") ? "border-gray-800" : ""
+                isPageActive("/tag-view")
+                  ? "border-black m-auto pb-3 "
+                  : "m-auto pb-3"
               }`}
             >
               Visualizar Tags
@@ -79,16 +90,20 @@ const Navbar = () => {
             <Link
               to="/visualizar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/visualizar") ? "border-gray-800" : ""
+                isPageActive("/visualizar")
+                  ? "border-black m-auto pb-3 "
+                  : "m-auto pb-3"
               }`}
             >
               Visualizar Registros
             </Link>
 
             <Link
-              to={"/visualizarOS"}
+              to={"/viewOS"}
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/visualizarOS") ? "border-gray-800" : ""
+                isPageActive("/viewOS")
+                  ? "border-black m-auto pb-3 "
+                  : "m-auto pb-3"
               }`}
             >
               Visualizar Ordens de Serviço

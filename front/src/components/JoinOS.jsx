@@ -46,15 +46,14 @@ function JoinOS() {
 
   const handleAssociate = async () => {
     try {
-        console.log('Associating order:', { orderId, userId });
       const response = await axios.post('http://localhost:8082/joinOS/', {
         orderId,
         userId,
       });
       console.log(response.data);
-
       setSavedMessage('Ordem associada com sucesso!');
       openModal();
+
       // After associating, update the list of orders and reset the userId
       fetchOrders();
       setUserId('');

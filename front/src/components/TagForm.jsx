@@ -41,15 +41,34 @@ const TagForm = () => {
 
   const handleSave = async () => {
     try {
+      if (!name.trim() || !currentTag.trim() || !cpf.trim()) {
+    
+        if(!name.trim()) {
+          setSavedMessage('Nome é obrigatório!');
+          openModal();
+          return;
+        }
+
+        if(!currentTag.trim()) {
+          setSavedMessage('RFID Tag é obrigatório!');
+          openModal();
+          return;
+        }
+        if(!cpf.trim()) {
+          setSavedMessage('CPF é obrigatório!');
+          openModal();
+          return;
+        }
+      }
       // Fazer uma chamada para o endpoint "/associate-tag" no backend usando Axios
       await axios.post('http://localhost:8082/associate-tag/', {
         tag: currentTag,
         name: name,
         cpf: cpf,
       });
-
+      
       // Exibir mensagem de sucesso para o usuário
-      setSavedMessage('Tag criada e associada com sucesso!');
+      setSavedMessage('Tag salva com sucesso!');
       openModal();
     } catch (error) {
       // Se houver um erro, exibir a mensagem de erro ou lidar com ele conforme necessário

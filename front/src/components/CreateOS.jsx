@@ -33,7 +33,7 @@ const CreateOrder = () => {
       });
 
       const createdOrderId = response.data.data.id_order;
-      console.log('Created order ID:', createdOrderId);
+    
       setOrderId(createdOrderId);
 
       setSavedMessage(`OS criada com sucesso! ID: ${createdOrderId}`);
@@ -46,7 +46,7 @@ const CreateOrder = () => {
   };
 
   return (
-    <div className=" m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-md mt-52">
+    <div className=" m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52">
       <h1 className="text-3xl font-bold mb-4">Criar Ordem de Serviço</h1>
 
       <div className="mb-4">

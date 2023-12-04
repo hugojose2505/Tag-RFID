@@ -19,7 +19,7 @@ export default function Rotas () {
             <Route exact path="/visualizar" Component={VisualizarReg} /> 
             <Route exact path="/cadastrarOS" Component={CadastarOS} /> 
             <Route exact path="/associarOS" Component={AssociarOS} />
-            <Route exact path="/visualizarOS" Component={VisualizarOS} />
+            <Route exact path="/viewOS" Component={VisualizarOS} />
         </Routes>
     );
 }
