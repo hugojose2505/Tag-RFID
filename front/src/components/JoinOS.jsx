@@ -42,8 +42,6 @@ function JoinOS() {
     }
   };
 
-
-
   const handleAssociate = async () => {
     try {
       const response = await axios.post('http://localhost:8082/joinOS/', {
@@ -53,8 +51,6 @@ function JoinOS() {
       console.log(response.data);
       setSavedMessage('Ordem associada com sucesso!');
       openModal();
-
-      // After associating, update the list of orders and reset the userId
       fetchOrders();
       setUserId('');
     } catch (error) {

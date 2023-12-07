@@ -52,11 +52,11 @@ const EnterLeft = () => {
     <div>
       <h1 className="text-2xl font-bold mb-4 flex items-center justify-center">Leitura do Cartão</h1>
       <div className="bg-gray-200 p-4 rounded-md">
-        {isCardRead && showTag && (
+        {isCardRead && showTag &&  (
           <div className="border p-4 my-4 rounded-md">
             <p className="text-xl font-bold mb-2">{titleRegister}</p>
             <p>ID do Usuário: {user}</p>
-            <p>ID do Cartão: {id_user}</p>
+            <p>ID do Cartão: {user.id}</p>
             <p>Tag: {tag}</p>
           </div>
         )}

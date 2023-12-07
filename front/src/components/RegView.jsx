@@ -40,7 +40,7 @@ const RegView = () => {
         {readings.map((reading) => (
           <li
             key={reading.id_register}
-            className="border rounded-md p-4 mb-4 cursor-pointer bg-slate-300 hover:bg-slate-400"
+            className="border rounded-lg p-4 mb-4 cursor-pointer bg-white hover:bg-gray-200"
             onClick={() => openModal(reading)}
           >
             <p className="mb-2">

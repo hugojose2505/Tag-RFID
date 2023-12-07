@@ -42,6 +42,11 @@ const TagForm = () => {
   const handleSave = async () => {
     try {
       if (!name.trim() || !currentTag.trim() || !cpf.trim()) {
+        if(!currentTag.trim()&& !name.trim() && !cpf.trim()) {
+          setSavedMessage('Por favor preencher os campos obrigatórios!');
+          openModal();
+          return;
+        }
     
         if(!name.trim()) {
           setSavedMessage('Nome é obrigatório!');

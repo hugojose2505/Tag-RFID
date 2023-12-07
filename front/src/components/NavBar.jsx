@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useLocation } from "react-router-dom";
+import { CiMenuBurger } from "react-icons/ci";
+
 
 const Navbar = () => {
   const location = useLocation();
@@ -15,24 +17,25 @@ const Navbar = () => {
     return location.pathname.includes(path);
   };
   return (
-    <nav className="p-0 fixed w-full flex gap-4 ">
-      <div className="container mx-auto flex items-center justify-center w-full">
-        <button
-          className="lg:hidden text-black focus:outline-none"
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? "Fechar" : "Menu"}
-        </button>
-        <div
-          className={`sm:flex sm:space-x-4" gap-8  ${
-            isMenuOpen ? "flex " : "hidden"
-          } top-16 left-0 right-0 p-5  `}
-        >
+    <nav className="p-0 fixed w-full flex flex-col lg:flex-row gap-4">
+    <div className="container mx-auto flex items-center justify-between w-full">
+      <button
+        className="lg:hidden text-black focus:outline-none "
+        onClick={toggleMenu}
+      >
+        <CiMenuBurger size={30 }/>
+      </button>
+
+      <div
+        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 ${
+          isMenuOpen ? "flex" : "hidden"
+        } top-16 left-0 right-0 p-5`}
+      >
           <Link
             to="/tag-form"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4  rounded font-bold ${
               isPageActive("/tag-form")
-                ? "border-black m-auto pb-3 "
+                ? "border-gray-700 m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -43,7 +46,7 @@ const Navbar = () => {
             to="/cadastrarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/cadastrarOS")
-                ? "border-black m-auto pb-3 "
+                ? "border-gray-700 m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -53,7 +56,7 @@ const Navbar = () => {
             to="/associarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/associarOS")
-                ? "border-black m-auto pb-3 "
+                ? "border-gray-700 m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -64,7 +67,7 @@ const Navbar = () => {
             to="/registrar"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/registrar")
-                ? "border-black m-auto pb-3 "
+                ? "border-gray-700 m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -80,7 +83,7 @@ const Navbar = () => {
               to="/tag-view"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
-                  ? "border-black m-auto pb-3 "
+                  ? "border-gray-700 m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -91,7 +94,7 @@ const Navbar = () => {
               to="/visualizar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/visualizar")
-                  ? "border-black m-auto pb-3 "
+                  ? "border-gray-700 m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -102,7 +105,7 @@ const Navbar = () => {
               to={"/viewOS"}
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/viewOS")
-                  ? "border-black m-auto pb-3 "
+                  ? "border-gray-700 m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
