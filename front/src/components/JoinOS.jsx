@@ -48,7 +48,7 @@ function JoinOS() {
         orderId,
         userId,
       });
-      console.log(response.data);
+     
       setSavedMessage('Ordem associada com sucesso!');
       openModal();
       fetchOrders();
@@ -61,7 +61,7 @@ function JoinOS() {
   };
 
   return (
-    <div className="m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-md mt-52">
+    <div className="m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 ">
         <h1 className="text-3xl font-bold mb-4">Associar OS a um Usuário</h1>
         <div className="mt-8">
         <label htmlFor="orderId" className="block text-sm font-medium text-gray-700">

@@ -45,6 +45,31 @@ router.get("/tags", async (req, res) => {
   }
 });
 
+router.delete("/tags/:id", async (req, res) => {
+  const tagId = req.params.id;
+
+  try {
+    // Verifique se a tag existe
+    const tag = await prisma.user.findUnique({
+      where: { id: tagId },
+    });
+
+    if (!tag) {
+      return res.status(404).json({ error: "Tag não encontrada" });
+    }
+
+    // Delete a tag
+    await prisma.user.delete({
+      where: { id: tagId },
+    });
+
+    res.json({ message: "Tag deletada com sucesso" });
+  } catch (error) {
+    console.error("Erro ao deletar a tag:", error);
+    res.status(500).json({ error: "Erro ao deletar a tag" });
+  }
+});
+
 router.post("/associate-tag", async (req, res) => {
   try {
     const { tag, name, cpf } = req.body;
@@ -149,6 +174,35 @@ router.get('/orders', async (req, res) => {
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.delete('/orders/:orderId', async (req, res) => {
+  const orderId = req.params.orderId;
+
+  try {
+    // Verifique se a OS existe
+    const order = await prisma.serviceOrder.findUnique({
+      where: { id_order: orderId },
+    });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Ordem de Serviço não encontrada' });
+    }
+    // Antes de deletar a Ordem de Serviço, exclua os registros dependentes em serviceOrder
+    await prisma.serviceOrderUser.deleteMany({
+      where: { id_order: orderId },
+    });
+
+    // Deleta a OS
+    await prisma.serviceOrder.delete({
+      where: { id_order: orderId },
+    });
+
+    res.json({ message: 'Ordem de Serviço deletada com sucesso' });
+  } catch (error) {
+    console.error('Erro ao deletar a Ordem de Serviço:', error);
+    res.status(500).json({ error: 'Erro ao deletar a Ordem de Serviço' });
   }
 });
 
