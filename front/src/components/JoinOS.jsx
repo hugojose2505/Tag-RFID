@@ -48,6 +48,7 @@ function JoinOS() {
         orderId,
         userId,
       });
+      console.log(response.data);
      
       setSavedMessage('Ordem associada com sucesso!');
       openModal();
@@ -101,7 +102,7 @@ function JoinOS() {
         </select>
       </div>
 
-      <button className="bg-blue-500 text-white py-2 px-4 rounded mt-4" onClick={handleAssociate}>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4" onClick={handleAssociate}>
         Associar Ordem de Serviço
       </button>
       <Modal
@@ -111,7 +112,7 @@ function JoinOS() {
         className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md"
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
       >
-        <p>{savedMessage}</p>
+        <p className='text-1xl font-bold'>{savedMessage}</p>
         <button onClick={closeModal} className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
           Close
         </button>

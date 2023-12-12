@@ -8,6 +8,7 @@ const TagView = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteConfirmationModalIsOpen, setDeleteConfirmationModalIsOpen] =
     useState(false);
+  const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
 
   // Função para abrir o modal de confirmação
   const openDeleteConfirmationModal = () => {
@@ -25,6 +26,30 @@ const TagView = () => {
     closeDeleteConfirmationModal();
   };
 
+  const deleteTag = () => {
+    if (!selectedTag) {
+      return;
+    }
+
+    axios
+      .delete(`http://localhost:8082/tags/${selectedTag.id}`)
+      .then((response) => {
+        // Atualize a lista de tags após a exclusão
+        setTags(tags.filter((tag) => tag.id !== selectedTag.id));
+        closeModal();
+      })
+      .catch((error) => {
+        console.error("Erro ao deletar a tag:", error);
+
+        // Abre o modal de erro
+        setErrorModalIsOpen(true);
+      });
+  };
+
+  const closeErrorModal = () => {
+    setErrorModalIsOpen(false);
+  };
+
   useEffect(() => {
     axios
       .get("http://localhost:8082/tags/")
@@ -35,21 +60,6 @@ const TagView = () => {
         console.error("Error fetching tags:", error);
       });
   }, []);
-
-  const deleteTag = () => {
-    if (!selectedTag) {
-      return;
-    }
-
-    axios.delete(`http://localhost:8082/tags/${selectedTag.id}`).then((response) => {
-        // Atualize a lista de tags após a exclusão
-        setTags(tags.filter((tag) => tag.id !== selectedTag.id));
-        closeModal();
-      })
-      .catch((error) => {
-        console.error("Erro ao deletar a tag:", error);
-      });
-  };
 
   const openModal = (tag) => {
     setSelectedTag(tag);
@@ -69,7 +79,7 @@ const TagView = () => {
           <li key={tag.tag} className="flex">
             <button
               onClick={() => openModal(tag)}
-              className=" hover:bg-gray-100 hover:text-black text-black font-bold py-2 px-4 bg-white border border-gray-300 rounded-md shadow-md"
+              className="hover:bg-gray-100 hover:text-black text-black font-bold py-2 px-4 bg-white border border-gray-300 rounded-md shadow-md"
             >
               {tag.tag}
             </button>
@@ -116,6 +126,7 @@ const TagView = () => {
           onRequestClose={closeDeleteConfirmationModal}
           contentLabel="Confirmar Exclusão"
           className=" sm:p-8 bg-white p-7 rounded-lg justify-center items-center shadow-lg m-auto my-64 max-w-screen-md"
+          overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
         >
           <p className="text-xl font-semibold mb-4 text-center">
             Tem certeza que deseja deletar esta tag?
@@ -132,6 +143,28 @@ const TagView = () => {
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               Cancelar
+            </button>
+          </div>
+        </Modal>
+
+        {/* Modal de erro */}
+        <Modal
+          isOpen={errorModalIsOpen}
+          onRequestClose={closeErrorModal}
+          contentLabel="Erro ao Deletar Tag"
+          className="sm:p-8 bg-white p-7 rounded-lg justify-center items-center shadow-lg m-auto my-64 max-w-screen-md"
+          overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+        >
+          <p className="text-xl font-semibold mb-4 text-center">
+            Ocorreu um erro ao deletar a tag. 
+            <p>Tag associada a Registro ou Ordem de Serviço</p>
+          </p>
+          <div className="flex justify-center">
+            <button
+              onClick={closeErrorModal}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Fechar
             </button>
           </div>
         </Modal>
