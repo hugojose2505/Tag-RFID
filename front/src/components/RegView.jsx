@@ -38,7 +38,7 @@ const RegView = () => {
   
 
   return (
-    <div className=" m-auto mt-32 flex flex-col">
+    <div className=" m-auto mt-32 flex ml-14 flex-col">
       <h1 className="text-2xl font-bold mb-4 items-center justify-center text-center">
         Registro de Entrada e saida
       </h1>
@@ -94,10 +94,14 @@ const RegView = () => {
               <span className="font-bold">Data da Entrada:</span>{" "}
               {formatDateTime(selectedReading.created_at)} 
             </p>
-            <p>
-              <span className="font-bold">Data da Saida</span>{" "}
-              {formatDateTime(selectedReading.exit)} 
-            </p>
+            {selectedReading.exit && (
+              <>
+                <p >
+                  <span className="font-bold">Saída:</span> {formatDateTime(selectedReading.exit)}
+                </p>
+                {/* Adicione outros campos conforme necessário */}
+              </>
+            )}
             <p>
               <span className="font-bold">ID do Registro:</span>{" "}
               {selectedReading.id_register}

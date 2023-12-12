@@ -18,25 +18,25 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="p-0 fixed w-full flex flex-col lg:flex-row gap-4">
+    <nav className="p-0 fixed w-full flex flex-col lg:flex-row gap-4 ml-8 ">
     <div className="container mx-auto flex items-center justify-between w-full">
       <button
-        className="lg:hidden text-black focus:outline-none "
+        className="max-sm:hidden lg:hidden  text-black focus:outline-none mt-2 mr-0 "
         onClick={toggleMenu}
       >
         <CiMenuBurger size={30 }/>
       </button>
 
       <div
-        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 ${
-          isMenuOpen ? "flex" : "hidden"
+        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:bg-white ${
+          isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
         } top-16 left-0 right-0 p-5`}
       >
           <Link
             to="/tag-form"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4  rounded font-bold ${
               isPageActive("/tag-form")
-                ? "border-gray-950 m-auto pb-3 "
+                ? "border-black m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -47,7 +47,7 @@ const Navbar = () => {
             to="/cadastrarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/cadastrarOS")
-                ? "border-gray-950  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -57,7 +57,7 @@ const Navbar = () => {
             to="/associarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/associarOS")
-                ? "border-gray-950  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -68,7 +68,7 @@ const Navbar = () => {
             to="/registrar"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/registrar")
-                ? "border-gray-950  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -76,15 +76,15 @@ const Navbar = () => {
           </Link>
 
           <Link to="/">
-            <img src={logo} alt="Logo" className="h-20 m-auto" />
+            <img src={logo} alt="Logo" className="h-20 m-auto max-sm:hidden" />
           </Link>
 
-          <div className="flex space-x-4">
+          <div className="flex max-sm:flex-col space-x-4">
             <Link
               to="/tag-view"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
-                  ? "border-gray-950  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -95,7 +95,7 @@ const Navbar = () => {
               to="/visualizar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/visualizar")
-                  ? "border-gray-950  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -106,7 +106,7 @@ const Navbar = () => {
               to={"/viewOS"}
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/viewOS")
-                  ? "border-gray-950  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >

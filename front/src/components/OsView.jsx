@@ -58,9 +58,9 @@ const OrderView = () => {
   };
 
   return (
-    <div className="my-4 flex flex-col items-center justify-center">
+    <div className="my-4 flex flex-col items-center justify-center ml-14">
       <h2 className="text-2xl font-bold mb-4 ">Ordens de Serviço</h2>
-      <ul className="flex gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  ">
+      <ul className="flex flex-wrap  gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  ">
         {orders.map((order) => (
           <li key={order.id_order}>
             <button
@@ -72,10 +72,6 @@ const OrderView = () => {
           </li>
         ))}
       </ul>
-
-      {/* Modal de Confirmação para Deletar a OS */}
-
-      {/* Modal de Detalhes da OS */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
