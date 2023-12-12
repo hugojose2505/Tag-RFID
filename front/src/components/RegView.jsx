@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
+import moment from "moment-timezone"; // Importe moment-timezone
+
 
 const RegView = () => {
   const [readings, setReadings] = useState([]);
@@ -29,6 +31,10 @@ const RegView = () => {
     setModalIsOpen(false);
   };
 
+  const formatDateTime = (dateTimeString) => {
+    const adjustedDateTime = moment(dateTimeString).add(3, 'hours');
+    return adjustedDateTime.format("DD/MM/YYYY HH:mm:ss");
+  };
   
 
   return (
@@ -46,12 +52,18 @@ const RegView = () => {
             <p className="mb-2">
               <span className="font-bold">Nome:</span> {reading.user.name}
             </p>
-            <p className="mb-2">
-              <span className="font-bold">Entrada:</span> {reading.created_at}
+            <p className="mb-2 text-green-600 font-bold">
+              <span >Entrada:</span>  {formatDateTime(reading.created_at)}
             </p>
-            <p className="mb-2">
-              <span className="font-bold">Saída:</span> {reading.exit}
-            </p>
+        
+            {reading.exit && (
+              <>
+                <p className="mb-2 text-red-700 font-bold">
+                  <span>Saída:</span> {formatDateTime(reading.exit)}
+                </p>
+                {/* Adicione outros campos conforme necessário */}
+              </>
+            )}
             <p className="mb-2">
               <span className="font-bold">Tag:</span> {reading.user.tag}
             </p>
@@ -80,11 +92,11 @@ const RegView = () => {
             </p>
             <p>
               <span className="font-bold">Data da Entrada:</span>{" "}
-              {selectedReading.created_at}
+              {formatDateTime(selectedReading.created_at)} 
             </p>
             <p>
               <span className="font-bold">Data da Saida</span>{" "}
-              {selectedReading.exit}
+              {formatDateTime(selectedReading.exit)} 
             </p>
             <p>
               <span className="font-bold">ID do Registro:</span>{" "}
