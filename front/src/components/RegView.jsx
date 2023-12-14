@@ -14,7 +14,10 @@ const RegView = () => {
     axios
       .get("http://localhost:8082/register/")
       .then((response) => {
-        setReadings(response.data);
+        const sortedReadings = response.data.sort((a, b) => {
+          return new Date(b.created_at) - new Date(a.created_at);
+        });
+        setReadings(sortedReadings);
       })
       .catch((error) => {
         console.error("Erro ao obter leituras:", error);

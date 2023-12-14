@@ -6,6 +6,7 @@ const EnterLeft = () => {
   const [id_user, setIdUser] = useState("");
   const [tag, setTag] = useState("");
   const [user, setUser] = useState("");
+  const [userName, setUserName] = useState("");
   const [isCardRead, setIsCardRead] = useState(false);
   const [showTag, setShowTag] = useState(false);
   const [titleRegister, setTitleRegister] = useState("");
@@ -36,8 +37,22 @@ const EnterLeft = () => {
         const response = await axios.put("http://localhost:8082/register/", {
           tag,
         });
+        
         setTitleRegister(response.data.message);
         setUser(response.data.data.id_user);
+      
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    const sendRequest2 = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8082/tags/`);
+        const userWithTag = response.data.find((user) => user.id === response.data.data.id_user);
+        if (userWithTag) {
+          setUserName(userWithTag.name);
+        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -45,8 +60,10 @@ const EnterLeft = () => {
 
     if (isCardRead) {
       sendRequest();
+      sendRequest2();
     }
-  }, [isCardRead, tag]);
+    
+  }, [isCardRead, tag,id_user, userName]);
 
   return (
     <div>
@@ -56,8 +73,12 @@ const EnterLeft = () => {
           <div className="border p-4 my-4 rounded-md">
             <p className="text-xl font-bold mb-2">{titleRegister}</p>
             <p>ID do Usuário: {user}</p>
-            <p>ID do Cartão: {user.id}</p>
+            <p>ID do Cartão: {user.user}</p>
             <p>Tag: {tag}</p>
+            <p>Nome do Usuário: {userName}</p>
+            <p>Data da Leitura: {new Date().toLocaleDateString()}</p>
+            <p>Hora da Leitura: {new Date().toLocaleTimeString()}</p>
+         
           </div>
         )}
       </div>

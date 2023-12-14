@@ -1,5 +1,5 @@
 // src/components/Navbar.js
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useLocation } from "react-router-dom";
@@ -16,27 +16,55 @@ const Navbar = () => {
   const isPageActive = (path) => {
     return location.pathname.trim() === (path);
   };
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const scrollThreshold = 50; 
+
+      setIsScrolled(scrollPosition > scrollThreshold);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="p-0 fixed w-full flex flex-col lg:flex-row gap-4 ml-8 ">
-    <div className="container mx-auto flex items-center justify-between w-full">
-      <button
-        className="max-sm:hidden lg:hidden  text-black focus:outline-none mt-2 mr-0 "
-        onClick={toggleMenu}
-      >
-        <CiMenuBurger size={30 }/>
-      </button>
+    <nav
+      className={`p-0  fixed w-full flex flex-col lg:flex-row ml-0 max-sm:ml-0 ${
+        isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : "" // Change "your-color" to your desired color class
+      }`}
+    >
+      <div className="container mx-auto flex items-center justify-between w-full">
+        <button
+          className="max-sm:flex lg:hidden text-black focus:outline-none mt-2 mr-0 "
+          onClick={toggleMenu}
+        >
+          {isMenuOpen ? (
+            // Icon for Close Menu
+            <CiMenuBurger size={30} />
+          ) : (
+            // Icon for Open Menu
+            <CiMenuBurger
+              size={30}
+              className="max-sm:flex lg:hidden text-black focus:outline-none mt-2 mr-0 "
+            />
+          )}
+        </button>
 
       <div
-        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:bg-white ${
+        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:p-8 max-sm:bg-white ${
           isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
         } top-16 left-0 right-0 p-5`}
       >
           <Link
             to="/tag-form"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4  rounded font-bold ${
+            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/tag-form")
-                ? "border-black m-auto pb-3 "
+                ? "border-gray-800 m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -47,7 +75,7 @@ const Navbar = () => {
             to="/cadastrarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/cadastrarOS")
-                ? "border-black  m-auto pb-3 "
+                ? "border-gray-800  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -57,7 +85,7 @@ const Navbar = () => {
             to="/associarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/associarOS")
-                ? "border-black  m-auto pb-3 "
+                ? "border-gray-800  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -68,7 +96,7 @@ const Navbar = () => {
             to="/registrar"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/registrar")
-                ? "border-black  m-auto pb-3 "
+                ? "border-gray-800  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -84,7 +112,7 @@ const Navbar = () => {
               to="/tag-view"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
-                  ? "border-black  m-auto pb-3 "
+                  ? "border-gray-800  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -95,7 +123,7 @@ const Navbar = () => {
               to="/visualizar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/visualizar")
-                  ? "border-black  m-auto pb-3 "
+                  ? "border-gray-800  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -106,7 +134,7 @@ const Navbar = () => {
               to={"/viewOS"}
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/viewOS")
-                  ? "border-black  m-auto pb-3 "
+                  ? "border-gray-800  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
