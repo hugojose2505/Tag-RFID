@@ -64,7 +64,7 @@ const Navbar = () => {
             to="/tag-form"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/tag-form")
-                ? "border-gray-800 m-auto pb-3 "
+                ? "border-black m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -75,7 +75,7 @@ const Navbar = () => {
             to="/cadastrarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/cadastrarOS")
-                ? "border-gray-800  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -85,7 +85,7 @@ const Navbar = () => {
             to="/associarOS"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/associarOS")
-                ? "border-gray-800  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -96,7 +96,7 @@ const Navbar = () => {
             to="/registrar"
             className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/registrar")
-                ? "border-gray-800  m-auto pb-3 "
+                ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3"
             }`}
           >
@@ -112,7 +112,7 @@ const Navbar = () => {
               to="/tag-view"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
-                  ? "border-gray-800  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -123,7 +123,7 @@ const Navbar = () => {
               to="/visualizar"
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/visualizar")
-                  ? "border-gray-800  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
@@ -134,7 +134,7 @@ const Navbar = () => {
               to={"/viewOS"}
               className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/viewOS")
-                  ? "border-gray-800  m-auto pb-3 "
+                  ? "border-black  m-auto pb-3 "
                   : "m-auto pb-3"
               }`}
             >
