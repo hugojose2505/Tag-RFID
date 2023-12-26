@@ -2,52 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { createTag } = require("../controller/tagController");
 const { RegisterController } = require("../controller/RegisterController");
-const { RegisterUpdateController } = require("../controller/RegisterUpdateController");
 const { PrismaClient } = require("@prisma/client");
+const { OsController } = require("../controller/OsController");
 const prisma = new PrismaClient();
-
-router.post("/api/tags", async (req, res) => {
-  try {
-    const { tag } = req.body;
-    if (!tag) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Tag is required" });
-    }
-
-    const savedData = await createTag({ tag });
-
-    return res.json({
-      success: true,
-      message: "Tag received and saved successfully",
-      data: savedData,
-    });
-  } catch (error) {
-    console.error("Erro ao processar dados:", error);
-    return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
-  }
-});
-
-router.get("/tags/:tag", async (req, res) => {
-  const tag = req.params.tag;
-
-  try {
-    const tagInfo = await prisma.user.findUnique({
-      where: { tag: tag },
-    });
-
-    if (tagInfo) {
-      return res.json({ tag: tagInfo.tag });
-    } else {
-      return res.status(404).json({ error: "Tag not found" });
-    }
-  } catch (error) {
-    console.error("Erro ao obter informações da tag:", error);
-    return res.status(500).json({ error: "Erro interno do servidor" });
-  }
-});
 
 router.get("/register", async (req, res) => {
   try {
@@ -78,12 +35,38 @@ router.get("/tags", async (req, res) => {
         tag: true,
         name: true,
         cpf: true,
+        id: true,
       },
     });
     res.json(tags);
   } catch (error) {
     console.error("Erro ao obter tags:", error);
     res.status(500).json({ error: "Erro ao obter tags" });
+  }
+});
+
+router.delete("/tags/:id", async (req, res) => {
+  const tagId = req.params.id;
+
+  try {
+    // Verifique se a tag existe
+    const tag = await prisma.user.findUnique({
+      where: { id: tagId },
+    });
+
+    if (!tag) {
+      return res.status(404).json({ error: "Tag não encontrada" });
+    }
+
+    // Delete a tag
+    await prisma.user.delete({
+      where: { id: tagId },
+    });
+
+    res.json({ message: "Tag deletada com sucesso" });
+  } catch (error) {
+    console.error("Erro ao deletar a tag:", error);
+    res.status(500).json({ error: "Erro ao deletar a tag" });
   }
 });
 
@@ -128,28 +111,99 @@ router.put("/register", async (req, res) => {
   }
 });
 
-
-router.patch('/register/', async (req, res) => {
+router.post("/createOS", async (req, res) => {
   try {
-    const {  tag } = req.body;
-    const result = await RegisterUpdateController({
-      id_user,
-      tag,
-    });
-
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(400).json(result);
-    }
+    const { description } = req.body;
+    const order = await OsController(description);
+    res.status(201).json(order);
   } catch (error) {
-    console.error("Erro ao processar a solicitação:", error);
-    res.status(500).json({
-      success: false,
-      message: "Erro interno do servidor",
-    });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
+router.post('/joinOS', async (req, res) => {
+  const { orderId, userId } = req.body;
+
+  try {
+    // Verificar se a ServiceOrder e User existem
+    const serviceOrder = await prisma.serviceOrder.findUnique({
+      where: { id_order: orderId },
+    });
+
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!serviceOrder || !user) {
+      return res.status(404).json({ error: 'ServiceOrder or User not found' });
+    }
+
+    // Criar a associação no banco de dados
+    const association = await prisma.serviceOrderUser.create({
+      data: {
+        id_order: orderId,
+        id_user: userId,
+      },
+    });
+
+    return res.status(201).json(association);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/orders', async (req, res) => {
+  try {
+    const orders = await prisma.serviceOrder.findMany({
+      include: {
+        users: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                // ... outras propriedades do usuário, se necessário
+              },
+            },
+          },
+        },
+      },
+    });
+    res.json(orders);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.delete('/orders/:orderId', async (req, res) => {
+  const orderId = req.params.orderId;
+
+  try {
+    // Verifique se a OS existe
+    const order = await prisma.serviceOrder.findUnique({
+      where: { id_order: orderId },
+    });
+
+    if (!order) {
+      return res.status(404).json({ error: 'Ordem de Serviço não encontrada' });
+    }
+    // Antes de deletar a Ordem de Serviço, exclua os registros dependentes em serviceOrder
+    await prisma.serviceOrderUser.deleteMany({
+      where: { id_order: orderId },
+    });
+
+    // Deleta a OS
+    await prisma.serviceOrder.delete({
+      where: { id_order: orderId },
+    });
+
+    res.json({ message: 'Ordem de Serviço deletada com sucesso' });
+  } catch (error) {
+    console.error('Erro ao deletar a Ordem de Serviço:', error);
+    res.status(500).json({ error: 'Erro ao deletar a Ordem de Serviço' });
+  }
+});
 
 module.exports = router;
