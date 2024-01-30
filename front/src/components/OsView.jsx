@@ -6,8 +6,7 @@ const OrderView = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [deleteConfirmationModalIsOpen, setDeleteConfirmationModalIsOpen] =
-    useState(false);
+  const [deleteConfirmationModalIsOpen, setDeleteConfirmationModalIsOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -43,7 +42,6 @@ const OrderView = () => {
       await axios.delete(
         `http://localhost:8082/orders/${selectedOrder.id_order}`
       );
-      // Atualize a lista de ordens após a exclusão
       const updatedOrders = orders.filter(
         (order) => order.id_order !== selectedOrder.id_order
       );
@@ -91,11 +89,9 @@ const OrderView = () => {
                 Usuários Associados:{" "}
                 {selectedOrder.users.map((user) => user.user.name).join(", ")}
               </p>
-              {/* Botão para abrir o Modal de Confirmação */}
             </div>
           )}
           <div className="flex justify-center mr-5 gap-4 mt-8">
-            
             <button
               onClick={openDeleteConfirmationModal}
               className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded "

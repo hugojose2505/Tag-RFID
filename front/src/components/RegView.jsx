@@ -1,8 +1,7 @@
-// ReadingsPage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import moment from "moment-timezone"; // Importe moment-timezone
+import moment from "moment-timezone"; 
 
 
 const RegView = () => {
@@ -64,7 +63,6 @@ const RegView = () => {
                 <p className="mb-2 text-red-700 font-bold">
                   <span>Saída:</span> {formatDateTime(reading.exit)}
                 </p>
-                {/* Adicione outros campos conforme necessário */}
               </>
             )}
             <p className="mb-2">
@@ -102,14 +100,12 @@ const RegView = () => {
                 <p >
                   <span className="font-bold">Saída:</span> {formatDateTime(selectedReading.exit)}
                 </p>
-                {/* Adicione outros campos conforme necessário */}
               </>
             )}
             <p>
               <span className="font-bold">ID do Registro:</span>{" "}
               {selectedReading.id_register}
             </p>
-            {/* Adicione outros campos conforme necessário */}
             <button
               onClick={closeModal}
               className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center"

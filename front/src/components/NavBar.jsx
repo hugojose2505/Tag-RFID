@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -14,10 +13,11 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const isPageActive = (path) => {
-    return location.pathname.trim() === (path);
+    return location.pathname === (path);
   };
   const [isScrolled, setIsScrolled] = useState(false);
 
+  console.log(isPageActive("/tag-form"));
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <nav
       className={`p-0  fixed w-full flex flex-col lg:flex-row ml-0 max-sm:ml-0 ${
-        isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : "" // Change "your-color" to your desired color class
+        isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : "" 
       }`}
     >
       <div className="container mx-auto flex items-center justify-between w-full">
@@ -44,10 +44,10 @@ const Navbar = () => {
           onClick={toggleMenu}
         >
           {isMenuOpen ? (
-            // Icon for Close Menu
+            
             <CiMenuBurger size={30} />
           ) : (
-            // Icon for Open Menu
+            
             <CiMenuBurger
               size={30}
               className="max-sm:flex lg:hidden text-black focus:outline-none mt-2 mr-0 "
@@ -62,10 +62,10 @@ const Navbar = () => {
       >
           <Link
             to="/tag-form"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/tag-form")
                 ? "border-black m-auto pb-3 "
-                : "m-auto pb-3"
+                : "m-auto pb-3 border-transparent"
             }`}
           >
             Cadastrar Tag
@@ -73,20 +73,20 @@ const Navbar = () => {
 
           <Link
             to="/cadastrarOS"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/cadastrarOS")
                 ? "border-black  m-auto pb-3 "
-                : "m-auto pb-3"
+                : "m-auto pb-3 border-transparent"
             }`}
           >
             Criar OS
           </Link>
           <Link
             to="/associarOS"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/associarOS")
                 ? "border-black  m-auto pb-3 "
-                : "m-auto pb-3"
+                : "m-auto pb-3 border-transparent"
             }`}
           >
             Associar OS
@@ -94,10 +94,10 @@ const Navbar = () => {
 
           <Link
             to="/registrar"
-            className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
               isPageActive("/registrar")
                 ? "border-black  m-auto pb-3 "
-                : "m-auto pb-3"
+                : "m-auto pb-3 border-transparent"
             }`}
           >
             Registrar
@@ -110,10 +110,10 @@ const Navbar = () => {
           <div className="flex max-sm:flex-col space-x-4">
             <Link
               to="/tag-view"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
                   ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3"
+                  : "m-auto pb-3 border-transparent"
               }`}
             >
               Visualizar Tags
@@ -121,10 +121,10 @@ const Navbar = () => {
 
             <Link
               to="/visualizar"
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/visualizar")
                   ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3"
+                  : "m-auto pb-3 border-transparent"
               }`}
             >
               Visualizar Registros
@@ -132,10 +132,10 @@ const Navbar = () => {
 
             <Link
               to={"/viewOS"}
-              className={`text-black border-b-2 border-transparent hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/viewOS")
                   ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3"
+                  : "m-auto pb-3 border-transparent"
               }`}
             >
               Visualizar Ordens de Serviço
