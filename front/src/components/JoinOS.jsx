@@ -62,7 +62,7 @@ function JoinOS() {
   };
 
   return (
-    <div className="m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 max-sm:ml-0 max-sm:mr-0 ">
+    <div className="m-auto ml-4 mr-4 w-full p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 sm:m-auto ">
         <h1 className="text-3xl font-bold mb-4">Associar OS a um Usuário</h1>
         <div className="mt-8">
         <label htmlFor="orderId" className="block text-sm font-medium text-gray-700">

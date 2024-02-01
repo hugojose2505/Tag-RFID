@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       backgroundImage:{
         'background': "url('/src/assets/bg_login.png')",
+      },
+      backgroundColor: {
+        'back2': '#F5F5F5',
       }
     },
   },

@@ -16,7 +16,6 @@ const Navbar = () => {
   };
   const [isScrolled, setIsScrolled] = useState(false);
 
-  console.log(isPageActive("/tag-form"));
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -33,7 +32,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`p-0  fixed w-full flex flex-col lg:flex-row ml-0 max-sm:ml-0 ${
+      className={`p-0  fixed w-full flex flex-col lg:flex-row ml- max-sm:ml-0  ${
         isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : ""
       }`}
     >
@@ -47,13 +46,13 @@ const Navbar = () => {
           ) : (
             <CiMenuBurger
               size={30}
-              className="max-sm:flex lg:hidden text-black focus:outline-none mt-2 mr-0 "
+              className="max-sm:flex  lg:hidden text-black focus:outline-none mt-2 mr-0 "
             />
           )}
         </button>
 
         <div
-          className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:p-8 max-sm:bg-white ${
+          className={`lg:flex lg:space-x-4 text-center flex-col lg:flex-row gap-8 max-sm:p-8 max-lg:bg-white  ${
             isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
           } top-16 left-0 right-0 p-5`}
         >
@@ -101,10 +100,10 @@ const Navbar = () => {
           </Link>
 
           <Link to="/">
-            <img src={logo} alt="Logo" className="h-20 m-auto max-sm:hidden" />
+            <img src={logo} alt="Logo" className="h-20 m-auto max-lg:hidden" />
           </Link>
 
-          <div className="flex max-sm:flex-col space-x-4">
+         
             <Link
               to="/tag-view"
               className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
@@ -135,10 +134,9 @@ const Navbar = () => {
                   : "m-auto pb-3 border-transparent"
               }`}
             >
-              Visualizar Ordens de Serviço
+              Visualizar OS
             </Link>
           </div>
-        </div>
       </div>
     </nav>
   );
