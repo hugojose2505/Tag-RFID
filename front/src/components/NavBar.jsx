@@ -1,9 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useLocation } from "react-router-dom";
 import { CiMenuBurger } from "react-icons/ci";
-
 
 const Navbar = () => {
   const location = useLocation();
@@ -13,7 +12,7 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   const isPageActive = (path) => {
-    return location.pathname === (path);
+    return location.pathname === path;
   };
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -21,7 +20,7 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      const scrollThreshold = 50; 
+      const scrollThreshold = 50;
 
       setIsScrolled(scrollPosition > scrollThreshold);
     };
@@ -35,7 +34,7 @@ const Navbar = () => {
   return (
     <nav
       className={`p-0  fixed w-full flex flex-col lg:flex-row ml-0 max-sm:ml-0 ${
-        isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : "" 
+        isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : ""
       }`}
     >
       <div className="container mx-auto flex items-center justify-between w-full">
@@ -44,10 +43,8 @@ const Navbar = () => {
           onClick={toggleMenu}
         >
           {isMenuOpen ? (
-            
             <CiMenuBurger size={30} />
           ) : (
-            
             <CiMenuBurger
               size={30}
               className="max-sm:flex lg:hidden text-black focus:outline-none mt-2 mr-0 "
@@ -55,11 +52,11 @@ const Navbar = () => {
           )}
         </button>
 
-      <div
-        className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:p-8 max-sm:bg-white ${
-          isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
-        } top-16 left-0 right-0 p-5`}
-      >
+        <div
+          className={`lg:flex lg:space-x-4 flex-col lg:flex-row gap-8 max-sm:p-8 max-sm:bg-white ${
+            isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
+          } top-16 left-0 right-0 p-5`}
+        >
           <Link
             to="/tag-form"
             className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
