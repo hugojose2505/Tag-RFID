@@ -49,7 +49,6 @@ router.delete("/tags/:id", async (req, res) => {
   const tagId = req.params.id;
 
   try {
-    // Verifique se a tag existe
     const tag = await prisma.user.findUnique({
       where: { id: tagId },
     });
@@ -57,8 +56,6 @@ router.delete("/tags/:id", async (req, res) => {
     if (!tag) {
       return res.status(404).json({ error: "Tag não encontrada" });
     }
-
-    // Delete a tag
     await prisma.user.delete({
       where: { id: tagId },
     });
@@ -126,7 +123,6 @@ router.post('/joinOS', async (req, res) => {
   const { orderId, userId } = req.body;
 
   try {
-    // Verificar se a ServiceOrder e User existem
     const serviceOrder = await prisma.serviceOrder.findUnique({
       where: { id_order: orderId },
     });
@@ -138,8 +134,6 @@ router.post('/joinOS', async (req, res) => {
     if (!serviceOrder || !user) {
       return res.status(404).json({ error: 'ServiceOrder or User not found' });
     }
-
-    // Criar a associação no banco de dados
     const association = await prisma.serviceOrderUser.create({
       data: {
         id_order: orderId,
@@ -163,7 +157,6 @@ router.get('/orders', async (req, res) => {
             user: {
               select: {
                 name: true,
-                // ... outras propriedades do usuário, se necessário
               },
             },
           },
@@ -181,7 +174,6 @@ router.delete('/orders/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 
   try {
-    // Verifique se a OS existe
     const order = await prisma.serviceOrder.findUnique({
       where: { id_order: orderId },
     });
@@ -189,12 +181,9 @@ router.delete('/orders/:orderId', async (req, res) => {
     if (!order) {
       return res.status(404).json({ error: 'Ordem de Serviço não encontrada' });
     }
-    // Antes de deletar a Ordem de Serviço, exclua os registros dependentes em serviceOrder
     await prisma.serviceOrderUser.deleteMany({
       where: { id_order: orderId },
     });
-
-    // Deleta a OS
     await prisma.serviceOrder.delete({
       where: { id_order: orderId },
     });

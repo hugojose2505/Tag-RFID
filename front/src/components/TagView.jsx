@@ -10,17 +10,14 @@ const TagView = () => {
     useState(false);
   const [errorModalIsOpen, setErrorModalIsOpen] = useState(false);
 
-  // Função para abrir o modal de confirmação
   const openDeleteConfirmationModal = () => {
     setDeleteConfirmationModalIsOpen(true);
   };
 
-  // Função para fechar o modal de confirmação
   const closeDeleteConfirmationModal = () => {
     setDeleteConfirmationModalIsOpen(false);
   };
 
-  // Função para confirmar a exclusão
   const confirmDelete = () => {
     deleteTag();
     closeDeleteConfirmationModal();
@@ -30,18 +27,14 @@ const TagView = () => {
     if (!selectedTag) {
       return;
     }
-
     axios
       .delete(`http://localhost:8082/tags/${selectedTag.id}`)
       .then((response) => {
-        // Atualize a lista de tags após a exclusão
         setTags(tags.filter((tag) => tag.id !== selectedTag.id));
         closeModal();
       })
       .catch((error) => {
         console.error("Erro ao deletar a tag:", error);
-
-        // Abre o modal de erro
         setErrorModalIsOpen(true);
       });
   };
@@ -100,8 +93,6 @@ const TagView = () => {
               <p className="font-bold">Tag: {selectedTag.tag}</p>
               <p>Nome: {selectedTag.name}</p>
               <p>CPF: {selectedTag.cpf}</p>
-
-              {/* Botões de deletar e fechar com modal de confirmação */}
               <div className="flex mt-4">
                 <button
                   onClick={() => openDeleteConfirmationModal()}
@@ -120,7 +111,6 @@ const TagView = () => {
           )}
         </div>
 
-        {/* Modal de confirmação */}
         <Modal
           isOpen={deleteConfirmationModalIsOpen}
           onRequestClose={closeDeleteConfirmationModal}
@@ -146,8 +136,6 @@ const TagView = () => {
             </button>
           </div>
         </Modal>
-
-        {/* Modal de erro */}
         <Modal
           isOpen={errorModalIsOpen}
           onRequestClose={closeErrorModal}
