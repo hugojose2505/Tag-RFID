@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Modal from "react-modal";
 
 function JoinOS() {
-  const [orderId, setOrderId] = useState('');
-  const [userId, setUserId] = useState('');
+  const [orderId, setOrderId] = useState("");
+  const [userId, setUserId] = useState("");
   const [orders, setOrders] = useState([]);
   const [userIds, setUserIds] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [savedMessage, setSavedMessage] = useState('');
+  const [savedMessage, setSavedMessage] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -16,7 +16,7 @@ function JoinOS() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSavedMessage('');
+    setSavedMessage("");
   };
 
   useEffect(() => {
@@ -26,46 +26,49 @@ function JoinOS() {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('http://localhost:8082/orders/');
+      const response = await axios.get("http://localhost:8082/orders/");
       setOrders(response.data);
     } catch (error) {
-      console.error('Error fetching orders:', error.response.data);
+      console.error("Error fetching orders:", error.response.data);
     }
   };
 
   const fetchUserIds = async () => {
     try {
-      const response = await axios.get('http://localhost:8082/tags/');
+      const response = await axios.get("http://localhost:8082/tags/");
       setUserIds(response.data);
     } catch (error) {
-      console.error('Error fetching user IDs:', error.response.data);
+      console.error("Error fetching user IDs:", error.response.data);
     }
   };
 
   const handleAssociate = async () => {
     try {
-      const response = await axios.post('http://localhost:8082/joinOS/', {
+      const response = await axios.post("http://localhost:8082/joinOS/", {
         orderId,
         userId,
       });
       console.log(response.data);
-     
-      setSavedMessage('Ordem associada com sucesso!');
+
+      setSavedMessage("Ordem associada com sucesso!");
       openModal();
       fetchOrders();
-      setUserId('');
+      setUserId("");
     } catch (error) {
-      console.error('Error associating order:', error.response.data);
-      setSavedMessage('Erro ao associar ordem!');
+      console.error("Error associating order:", error.response.data);
+      setSavedMessage("Erro ao associar ordem!");
       openModal();
     }
   };
 
   return (
-    <div className="m-auto ml-4 mr-4 w-full p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 sm:m-auto ">
-        <h1 className="text-3xl font-bold mb-4">Associar OS a um Usuário</h1>
-        <div className="mt-8">
-        <label htmlFor="orderId" className="block text-sm font-medium text-gray-700">
+    <div className="m-auto ml-4 mr-4 w-full p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 max-sm:m-auto ">
+      <h1 className="text-3xl font-bold mb-4">Associar OS a um Usuário</h1>
+      <div className="mt-8">
+        <label
+          htmlFor="orderId"
+          className="block text-sm font-medium text-gray-700"
+        >
           Selecionar Ordem:
         </label>
         <select
@@ -74,7 +77,9 @@ function JoinOS() {
           value={orderId}
           onChange={(e) => setOrderId(e.target.value)}
         >
-          <option value="" disabled>Selecione uma opção</option>
+          <option value="" disabled>
+            Selecione uma opção
+          </option>
           {orders.map((order) => (
             <option key={order.id_order} value={order.id_order}>
               {order.description} (ID: {order.id_order})
@@ -82,9 +87,11 @@ function JoinOS() {
           ))}
         </select>
       </div>
-
       <div className="mt-4">
-        <label htmlFor="userId" className="block text-sm font-medium text-gray-700">
+        <label
+          htmlFor="userId"
+          className="block text-sm font-medium text-gray-700"
+        >
           Selecionar Usuário:
         </label>
         <select
@@ -93,7 +100,9 @@ function JoinOS() {
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
         >
-          <option value="" disabled>Selecionar funcionario</option>
+          <option value="" disabled>
+            Selecionar funcionario
+          </option>
           {userIds.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name} (Tag: {user.tag}, CPF: {user.cpf})
@@ -101,8 +110,10 @@ function JoinOS() {
           ))}
         </select>
       </div>
-
-      <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4" onClick={handleAssociate}>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4"
+        onClick={handleAssociate}
+      >
         Associar Ordem de Serviço
       </button>
       <Modal
@@ -112,8 +123,11 @@ function JoinOS() {
         className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md"
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
       >
-        <p className='text-1xl font-bold'>{savedMessage}</p>
-        <button onClick={closeModal} className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+        <p className="text-1xl font-bold">{savedMessage}</p>
+        <button
+          onClick={closeModal}
+          className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center"
+        >
           Close
         </button>
       </Modal>

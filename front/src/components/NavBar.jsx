@@ -53,7 +53,7 @@ const Navbar = () => {
 
         <div
           className={`lg:flex lg:space-x-4 text-center flex-col lg:flex-row gap-8 max-sm:p-8 max-lg:bg-white  ${
-            isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden"
+            isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden "
           } top-16 left-0 right-0 p-5`}
         >
           <Link
