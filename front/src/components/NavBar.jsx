@@ -23,7 +23,6 @@ const Navbar = () => {
 
       setIsScrolled(scrollPosition > scrollThreshold);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -50,7 +49,6 @@ const Navbar = () => {
             />
           )}
         </button>
-
         <div
           className={`lg:flex lg:space-x-4 text-center flex-col lg:flex-row gap-8 max-sm:p-8 max-lg:bg-white  ${
             isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden "
@@ -87,7 +85,6 @@ const Navbar = () => {
           >
             Associar OS
           </Link>
-
           <Link
             to="/registrar"
             className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
@@ -98,23 +95,19 @@ const Navbar = () => {
           >
             Registrar
           </Link>
-
           <Link to="/">
-            <img src={logo} alt="Logo" className="h-20 m-auto max-lg:hidden" />
+            <img src={logo} alt="Logo" className="h-20 m-auto max-md:hidden" />
           </Link>
-
-         
             <Link
               to="/tag-view"
               className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
                 isPageActive("/tag-view")
-                  ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3 border-transparent"
+                ? "border-black  m-auto pb-3 "
+                : "m-auto pb-3 border-transparent"
               }`}
             >
               Visualizar Tags
             </Link>
-
             <Link
               to="/visualizar"
               className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
@@ -125,7 +118,6 @@ const Navbar = () => {
             >
               Visualizar Registros
             </Link>
-
             <Link
               to={"/viewOS"}
               className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${

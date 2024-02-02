@@ -8,6 +8,7 @@ import VisualizarReg from "./pages/VisualizarReg";
 import CadastarOS from "./pages/CadastrarOS";
 import AssociarOS from "./pages/AssociarOS";
 import VisualizarOS from "./pages/VisualizarOS";
+import NotFound from "./pages/NotFound";
 
 export default function Rotas () {
     return (
@@ -20,6 +21,7 @@ export default function Rotas () {
             <Route exact path="/cadastrarOS" Component={CadastarOS} /> 
             <Route exact path="/associarOS" Component={AssociarOS} />
             <Route exact path="/viewOS" Component={VisualizarOS} />
+            <Route exact path="*" Component={NotFound} />
         </Routes>
     );
 }

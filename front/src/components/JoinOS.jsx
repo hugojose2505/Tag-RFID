@@ -62,9 +62,9 @@ function JoinOS() {
   };
 
   return (
-    <div className="m-auto ml-4 mr-4 w-full p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52 max-sm:m-auto ">
+    <div className="m-auto ml-4 mr-4 max-sm:w-full w-auto p-8 bg-slate-300 border border-gray-300 rounded-lg mt-48  ">
       <h1 className="text-3xl font-bold mb-4">Associar OS a um Usuário</h1>
-      <div className="mt-8">
+      <div className="mt-8 ">
         <label
           htmlFor="orderId"
           className="block text-sm font-medium text-gray-700"
@@ -73,7 +73,7 @@ function JoinOS() {
         </label>
         <select
           id="orderId"
-          className="mt-1 p-2 border rounded-md"
+          className="mt-1 p-2 w-full border rounded-md"
           value={orderId}
           onChange={(e) => setOrderId(e.target.value)}
         >
@@ -96,7 +96,7 @@ function JoinOS() {
         </label>
         <select
           id="userId"
-          className="mt-1 p-2 border rounded-md"
+          className="mt-1 p-2 border w-auto max-sm:w-full rounded-md"
           value={userId}
           onChange={(e) => setUserId(e.target.value)}
         >
@@ -111,7 +111,7 @@ function JoinOS() {
         </select>
       </div>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4"
+        className="bg-blue-500 hover:bg-blue-700 items-center  text-white py-2 px-4 rounded mt-4"
         onClick={handleAssociate}
       >
         Associar Ordem de Serviço
