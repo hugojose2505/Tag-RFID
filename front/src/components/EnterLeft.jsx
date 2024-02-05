@@ -10,6 +10,8 @@ const EnterLeft = () => {
   const [isCardRead, setIsCardRead] = useState(false);
   const [showTag, setShowTag] = useState(false);
   const [titleRegister, setTitleRegister] = useState("");
+  const [orders, setOrders] = useState([]);
+
 
   const socketUrl = "ws://localhost:8082/";
   const { lastMessage } = useWebSocket(socketUrl);

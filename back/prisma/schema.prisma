@@ -13,20 +13,22 @@ model User {
   tag            String           @unique
   name           String
   cpf            String           @unique
-  register_hours Register_hours[]
-  service_orders ServiceOrderUser[] 
+  register_hours Register_hours[] 
+  service_orders ServiceOrder[] 
 
   @@map("user")
 }
 
 model Register_hours {
-  id_register String   @id @default(uuid()) @map("register_id")
+  id_register String      @id @default(uuid()) @map("register_id")
   id_user     String
-  user        User     @relation(fields: [id_user], references: [id])
+  id_order    String
+  user        User        @relation(fields: [id_user], references: [id])
+  order       ServiceOrder @relation(fields: [id_order], references: [id_order])
   input       DateTime ?
   exit        DateTime ?
-  active      Boolean ?  @default(false) 
-  created_at  DateTime @default(now())
+  active      Boolean ?    @default(false) 
+  created_at  DateTime     @default(now())
   updated_at  DateTime ?
   delete_at   DateTime ?
 
@@ -34,23 +36,13 @@ model Register_hours {
 }
 
 model ServiceOrder {
-  id_order     String           @id @default(uuid()) @map("order_id")
+  id_order     String            @id @default(uuid()) @map("order_id")
   description  String
-  created_at   DateTime         @default(now())
+  created_at   DateTime          @default(now())
   updated_at   DateTime ?
   delete_at    DateTime ?
-  
-  users        ServiceOrderUser[] 
+  register_hours Register_hours[] // Adicionando o campo correspondente
+  users        User[]
+
   @@map("ServiceOrder")
-}
-model ServiceOrderUser {
-  id          String     @id @default(uuid()) @map("service_order_user_id")
-  id_order    String
-  id_user     String
-  order       ServiceOrder @relation(fields: [id_order], references: [id_order])
-  user        User        @relation(fields: [id_user], references: [id])
-
-  @@map("ServiceOrderUser")
-
-  @@unique([id_order, id_user]) 
 }

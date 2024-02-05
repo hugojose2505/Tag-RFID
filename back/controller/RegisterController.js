@@ -2,8 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const moment = require("moment");
 
-
-const RegisterController = async ({ tag}) => {
+const RegisterController = async ({ tag }) => {
   try {
     const existingTag = await prisma.user.findUnique({
       where: { tag: tag },
@@ -32,8 +31,7 @@ const RegisterController = async ({ tag}) => {
       },
     });
 
-    //let date = moment().format("YYYY-MM-DD HH:mm:ss");
-    let date = moment().subtract({h: 3})
+    let date = moment().subtract({ h: 3 });
 
     if (activeRegister?.active === true) {
       const registerUpdate = await prisma.register_hours.update({
@@ -49,7 +47,7 @@ const RegisterController = async ({ tag}) => {
 
       return {
         success: true,
-        message: "Saída registrada com sucesso",
+        message: "Saída registrada com sucesso",
         data: registerUpdate,
       };
     } else {
@@ -83,4 +81,34 @@ const RegisterController = async ({ tag}) => {
   }
 };
 
-module.exports = { RegisterController };
+const GetOrdersByTag = async (tag) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { tag: tag },
+      include: {
+        service_orders: true,
+      },
+    });
+
+    if (!user) {
+      return {
+        success: false,
+        message: "Tag not registered",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Tag encontrada com Ordem de Serviço",
+      data:user.service_orders,};
+  } catch (error) {
+    console.error("Error fetching orders by tag:", error);
+    return {
+      success: false,
+      message: "Internal Server Error",
+    };
+  }
+};
+
+
+module.exports = { RegisterController, GetOrdersByTag };

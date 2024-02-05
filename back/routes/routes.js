@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { createTag } = require("../controller/tagController");
-const { RegisterController } = require("../controller/RegisterController");
+const { RegisterController, GetOrdersByTag } = require("../controller/RegisterController");
 const { PrismaClient } = require("@prisma/client");
 const { OsController } = require("../controller/OsController");
 const prisma = new PrismaClient();
@@ -37,6 +37,7 @@ router.get("/tags", async (req, res) => {
         cpf: true,
         id: true,
       },
+    
     });
     res.json(tags);
   } catch (error) {
@@ -77,7 +78,6 @@ router.post("/associate-tag", async (req, res) => {
     const existingCPF = await prisma.user.findUnique({
       where: { cpf: cpf },
     });
-
     if (existingTag) {
       return res.status(400).json({ error: "Tag already created" });
     }
@@ -99,11 +99,22 @@ router.post("/associate-tag", async (req, res) => {
 
 router.put("/register", async (req, res) => {
   try {
-    const { id_user, tag,input, exit } = req.body;
-    const result = await RegisterController({ id_user, tag });
+    const { id_user, tag, input, exit , order} = req.body;
+    const result = await RegisterController({ id_user, tag, order });
     res.json(result);
   } catch (error) {
     console.error("Error processing data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/ordersByTag/:tag", async (req, res) => {
+  try {
+    const { tag } = req.params;
+    const result = await GetOrdersByTag(tag);
+    res.json(result);
+  } catch (error) {
+    console.error("Error fetching orders by tag:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -119,58 +130,62 @@ router.post("/createOS", async (req, res) => {
   }
 });
 
-router.post('/joinOS', async (req, res) => {
+router.post("/joinOS", async (req, res) => {
   const { orderId, userId } = req.body;
-
   try {
-    const serviceOrder = await prisma.serviceOrder.findUnique({
-      where: { id_order: orderId },
-    });
-
     const user = await prisma.user.findUnique({
       where: { id: userId },
     });
-
-    if (!serviceOrder || !user) {
-      return res.status(404).json({ error: 'ServiceOrder or User not found' });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
-    const association = await prisma.serviceOrderUser.create({
+    let serviceOrder = await prisma.serviceOrder.findUnique({
+      where: { id_order: orderId },
+    });
+    if (!serviceOrder) {
+      serviceOrder = await prisma.serviceOrder.create({
+        data: {
+          id_order: orderId,
+          description: "Default Description", // Set a default description or modify as needed
+        },
+      });
+    }
+    await prisma.user.update({
+      where: { id: userId },
       data: {
-        id_order: orderId,
-        id_user: userId,
+        service_orders: {
+          connect: {
+            id_order: orderId,
+          },
+        },
       },
     });
-
-    return res.status(201).json(association);
+    return res.status(201).json(serviceOrder);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.get('/orders', async (req, res) => {
+router.get("/orders", async (req, res) => {
   try {
     const orders = await prisma.serviceOrder.findMany({
       include: {
         users: {
           select: {
-            user: {
-              select: {
-                name: true,
-              },
-            },
+            name: true,
           },
         },
       },
     });
     res.json(orders);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.get('/orders/:idOrder/users', async (req, res) => {
+router.get("/orders/:idOrder/users", async (req, res) => {
   try {
     const order = await prisma.serviceOrder.findUnique({
       where: { id_order: req.params.idOrder },
@@ -182,16 +197,16 @@ router.get('/orders/:idOrder/users', async (req, res) => {
         },
       },
     });
-    const associatedUsers = order?.users.map(user => user.id_user) || [];
-    const orderDescription = order?.description || '';
+    const associatedUsers = order?.users.map((user) => user.id_user) || [];
+    const orderDescription = order?.description || "";
     res.json({ IdUsers: associatedUsers, Description: orderDescription });
   } catch (error) {
-    console.error('Erro ao obter usuários associados à OS:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Erro ao obter usuários associados à OS:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
-router.delete('/orders/:orderId', async (req, res) => {
+router.delete("/orders/:orderId", async (req, res) => {
   const orderId = req.params.orderId;
 
   try {
@@ -200,19 +215,19 @@ router.delete('/orders/:orderId', async (req, res) => {
     });
 
     if (!order) {
-      return res.status(404).json({ error: 'Ordem de Serviço não encontrada' });
+      return res.status(404).json({ error: "Ordem de Serviço não encontrada" });
     }
-    await prisma.serviceOrderUser.deleteMany({
+    await prisma.serviceOrder.deleteMany({
       where: { id_order: orderId },
     });
     await prisma.serviceOrder.delete({
       where: { id_order: orderId },
     });
 
-    res.json({ message: 'Ordem de Serviço deletada com sucesso' });
+    res.json({ message: "Ordem de Serviço deletada com sucesso" });
   } catch (error) {
-    console.error('Erro ao deletar a Ordem de Serviço:', error);
-    res.status(500).json({ error: 'Erro ao deletar a Ordem de Serviço' });
+    console.error("Erro ao deletar a Ordem de Serviço:", error);
+    res.status(500).json({ error: "Erro ao deletar a Ordem de Serviço" });
   }
 });
 
