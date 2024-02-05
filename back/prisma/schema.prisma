@@ -14,7 +14,7 @@ model User {
   name           String
   cpf            String           @unique
   register_hours Register_hours[]
-  service_orders ServiceOrderUser[] // Relacionamento modificado
+  service_orders ServiceOrderUser[] 
 
   @@map("user")
 }
@@ -40,7 +40,7 @@ model ServiceOrder {
   updated_at   DateTime ?
   delete_at    DateTime ?
   
-  users        ServiceOrderUser[] // Relacionamento modificado
+  users        ServiceOrderUser[] 
   @@map("ServiceOrder")
 }
 model ServiceOrderUser {
@@ -52,5 +52,5 @@ model ServiceOrderUser {
 
   @@map("ServiceOrderUser")
 
-  @@unique([id_order, id_user]) // Garante que a combinação id_order e id_user seja única
+  @@unique([id_order, id_user]) 
 }

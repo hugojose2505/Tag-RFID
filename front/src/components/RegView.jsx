@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-import moment from "moment-timezone"; 
-
+import moment from "moment-timezone";
 
 const RegView = () => {
   const [readings, setReadings] = useState([]);
@@ -22,22 +21,20 @@ const RegView = () => {
         console.error("Erro ao obter leituras:", error);
       });
   }, []);
-  
-  const openModal = (reading) => {
+
+const openModal = (reading) => {
     setSelectedReading(reading);
     setModalIsOpen(true);
   };
-
   const closeModal = () => {
     setSelectedReading(null);
     setModalIsOpen(false);
   };
 
   const formatDateTime = (dateTimeString) => {
-    const adjustedDateTime = moment(dateTimeString).add(3, 'hours');
+    const adjustedDateTime = moment(dateTimeString).add(3, "hours");
     return adjustedDateTime.format("DD/MM/YYYY HH:mm:ss");
   };
-  
 
   return (
     <div className=" m-auto mt-32 flex ml-14 flex-col max-sm:ml-0">
@@ -55,9 +52,9 @@ const RegView = () => {
               <span className="font-bold">Nome:</span> {reading.user.name}
             </p>
             <p className="mb-2 text-green-600 font-bold">
-              <span >Entrada:</span>  {formatDateTime(reading.created_at)}
+              <span>Entrada:</span> {formatDateTime(reading.created_at)}
             </p>
-        
+
             {reading.exit && (
               <>
                 <p className="mb-2 text-red-700 font-bold">
@@ -93,12 +90,13 @@ const RegView = () => {
             </p>
             <p>
               <span className="font-bold">Data da Entrada:</span>{" "}
-              {formatDateTime(selectedReading.created_at)} 
+              {formatDateTime(selectedReading.created_at)}
             </p>
             {selectedReading.exit && (
               <>
-                <p >
-                  <span className="font-bold">Saída:</span> {formatDateTime(selectedReading.exit)}
+                <p>
+                  <span className="font-bold">Saída:</span>{" "}
+                  {formatDateTime(selectedReading.exit)}
                 </p>
               </>
             )}

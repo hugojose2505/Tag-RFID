@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`p-0  fixed w-full flex flex-col lg:flex-row ml- max-sm:ml-0  ${
+      className={`p-0  fixed w-full flex flex-col lg:flex-row max-sm:ml-0  ${
         isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : ""
       }`}
     >
@@ -96,39 +96,43 @@ const Navbar = () => {
             Registrar
           </Link>
           <Link to="/">
-            <img src={logo} alt="Logo" className="h-20 m-auto max-md:hidden" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-20 m-auto lg:flex max-md:hidden"
+            />
           </Link>
-            <Link
-              to="/tag-view"
-              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/tag-view")
+          <Link
+            to="/tag-view"
+            className={`text-black border-b-2  hover:border-gray-300  px-4 py-2 rounded font-bold ${
+              isPageActive("/tag-view")
                 ? "border-black  m-auto pb-3 "
                 : "m-auto pb-3 border-transparent"
-              }`}
-            >
-              Visualizar Tags
-            </Link>
-            <Link
-              to="/visualizar"
-              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/visualizar")
-                  ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3 border-transparent"
-              }`}
-            >
-              Visualizar Registros
-            </Link>
-            <Link
-              to={"/viewOS"}
-              className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
-                isPageActive("/viewOS")
-                  ? "border-black  m-auto pb-3 "
-                  : "m-auto pb-3 border-transparent"
-              }`}
-            >
-              Visualizar OS
-            </Link>
-          </div>
+            }`}
+          >
+            Visualizar Tags
+          </Link>
+          <Link
+            to="/visualizar"
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              isPageActive("/visualizar")
+                ? "border-black  m-auto pb-3 "
+                : "m-auto pb-3 border-transparent"
+            }`}
+          >
+            Visualizar Registros
+          </Link>
+          <Link
+            to={"/viewOS"}
+            className={`text-black border-b-2  hover:border-gray-300 px-4 py-2 rounded font-bold ${
+              isPageActive("/viewOS")
+                ? "border-black  m-auto pb-3 "
+                : "m-auto pb-3 border-transparent"
+            }`}
+          >
+            Visualizar OS
+          </Link>
+        </div>
       </div>
     </nav>
   );

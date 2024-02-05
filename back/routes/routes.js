@@ -170,6 +170,27 @@ router.get('/orders', async (req, res) => {
   }
 });
 
+router.get('/orders/:idOrder/users', async (req, res) => {
+  try {
+    const order = await prisma.serviceOrder.findUnique({
+      where: { id_order: req.params.idOrder },
+      include: {
+        users: {
+          select: {
+            id_user: true,
+          },
+        },
+      },
+    });
+    const associatedUsers = order?.users.map(user => user.id_user) || [];
+    const orderDescription = order?.description || '';
+    res.json({ IdUsers: associatedUsers, Description: orderDescription });
+  } catch (error) {
+    console.error('Erro ao obter usuários associados à OS:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 router.delete('/orders/:orderId', async (req, res) => {
   const orderId = req.params.orderId;
 

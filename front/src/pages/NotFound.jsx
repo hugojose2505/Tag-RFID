@@ -6,6 +6,7 @@ export default function NotFound() {
   const backPage = () => {
     history(-1);
   };
+
   return (
     <div className="h-screen flex items-center justify-center bg-background bg-cover bg-no-repeat">
       <div className="text-center">
