@@ -5,13 +5,14 @@ import useWebSocket from "react-use-websocket";
 const EnterLeft = () => {
   const [id_user, setIdUser] = useState("");
   const [tag, setTag] = useState("");
-  const [user, setUser] = useState("");
   const [userName, setUserName] = useState("");
+  const [userCpf, setUserCpf] = useState("");
   const [isCardRead, setIsCardRead] = useState(false);
   const [showTag, setShowTag] = useState(false);
   const [titleRegister, setTitleRegister] = useState("");
   const [orders, setOrders] = useState([]);
-
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  
 
   const socketUrl = "ws://localhost:8082/";
   const { lastMessage } = useWebSocket(socketUrl);
@@ -33,16 +34,24 @@ const EnterLeft = () => {
   }, [lastMessage, tag, id_user]);
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8082/tags/${tag}`);
+        setUserName(response.data.name);
+        setUserCpf(response.data.cpf);
+        
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
     const sendRequest = async () => {
       try {
-        
         const response = await axios.put("http://localhost:8082/register/", {
           tag,
+          orderId: selectedOrder.id_order,
         });
-        
         setTitleRegister(response.data.message);
-        setUser(response.data.data.id_user);
-      
+        setSelectedOrder(null);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -50,41 +59,78 @@ const EnterLeft = () => {
 
     const sendRequest2 = async () => {
       try {
-        const response = await axios.get(`http://localhost:8082/tags/`);
-        const userWithTag = response.data.find((user) => user.id === response.data.data.id_user);
-        if (userWithTag) {
-          setUserName(userWithTag.name);
-        }
+        const response = await axios.get(`http://localhost:8082/ordersByTag/${tag}`);
+        setOrders(response.data.data);
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
-    if (isCardRead) {
-      sendRequest();
+    if (isCardRead && tag !== "") {
       sendRequest2();
+      fetchUserData();
     }
-    
-  }, [isCardRead, tag,id_user, userName]);
+    if (selectedOrder && tag !== "") {
+      sendRequest();
+    }
+    if (selectedOrder) {
+      handleOrderSelect(selectedOrder.orderId);
+    }
+  }, [isCardRead, id_user, tag, selectedOrder]);
+
+  const handleOrderSelect = (orderId) => {
+    const selected = orders.find((order) => order.id_order === orderId);
+    setSelectedOrder(selected);
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4 flex items-center justify-center">Leitura do Cartão</h1>
-      <div className="bg-gray-200 p-4 rounded-md">
-        {isCardRead && showTag &&  (
-          <div className="border p-4 my-4 rounded-md">
-            <p className="text-xl font-bold mb-2">{titleRegister}</p>
-            <p>ID do Usuário: {user}</p>
-            <p>ID do Cartão: {user.user}</p>
-            <p>Tag: {tag}</p>
-            <p>Nome do Usuário: {userName}</p>
-            <p>Data da Leitura: {new Date().toLocaleDateString()}</p>
-            <p>Hora da Leitura: {new Date().toLocaleTimeString()}</p>
-         
+
+    <div className="max-w-md mx-auto mt-8 p-4 bg-gray-100 rounded-md">
+    <h1 className="text-3xl font-bold mb-6 text-center text-black">Leitura do Cartão</h1>
+    <div className="bg-gray-200 p-6 rounded-md">
+      {isCardRead && showTag && tag &&  (
+        <div className="border p-6 my-4 rounded-md bg-white">
+          <p className="text-xl font-bold mb-4 text-indigo-700">{titleRegister}</p>
+          <p className="mb-2">
+            <span className="font-semibold">Tag:</span> {tag}
+          </p>
+          <p className="mb-2">
+            <span className="font-semibold">Nome:</span> {userName}
+          </p>
+          <p className="mb-2">
+            <span className="font-semibold">CPF:</span> {userCpf}
+          </p>
+          <p className="mb-2">
+            <span className="font-semibold">Data da Leitura:</span> {new Date().toLocaleDateString()}
+          </p>
+          <p className="mb-2">
+            <span className="font-semibold">Hora da Leitura:</span> {new Date().toLocaleTimeString()}
+          </p>
+  
+          <div className="mt-6 items-center justify-center ">
+            <label className="block mb-2 text-gray-700">Selecionar OS:</label>
+            <select
+              value={selectedOrder ? selectedOrder.id_order : ""}
+              onChange={(e) => {
+                const orderId = e.target.value;
+                const selected = orders.find((order) => order.id_order === orderId);
+                setSelectedOrder(selected);
+              }}
+              className="w-full p-3 border rounded-md bg-gray-100"
+            >
+              <option value="" className="text-gray-600">Selecione OS</option>
+              {orders.map((order) => (
+                <option key={order.id_order} value={order.id_order} className="text-indigo-700">
+                  {order.description}
+                </option>
+              ))}
+            </select>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
+  </div>
+  
   );
 };
 

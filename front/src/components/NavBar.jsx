@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`p-0  fixed w-full flex flex-col lg:flex-row max-sm:ml-0  ${
+      className={`p-0  fixed w-full flex flex-col ml-5 lg:flex-row max-sm:ml-0  ${
         isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : ""
       }`}
     >

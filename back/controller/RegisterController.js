@@ -2,10 +2,12 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const moment = require("moment");
 
-const RegisterController = async ({ tag }) => {
+const RegisterController = async ({ tag, orderId }) => {
   try {
     const existingTag = await prisma.user.findUnique({
-      where: { tag: tag },
+      where: {
+        tag: tag
+      },
     });
 
     const getTag = await prisma.user.findUnique({
@@ -33,7 +35,7 @@ const RegisterController = async ({ tag }) => {
 
     let date = moment().subtract({ h: 3 });
 
-    if (activeRegister?.active === true) {
+    if (activeRegister?.active === true && activeRegister?.id_order === orderId) {
       const registerUpdate = await prisma.register_hours.update({
         where: {
           id_register: activeRegister.id_register,
@@ -50,7 +52,15 @@ const RegisterController = async ({ tag }) => {
         message: "Saída registrada com sucesso",
         data: registerUpdate,
       };
-    } else {
+    } 
+   else{
+    if(!orderId){
+      return {
+        success: false,
+        message: "Order not registered",
+      };
+    }
+   }
       const register = await prisma.register_hours.create({
         data: {
           input: date,
@@ -64,6 +74,11 @@ const RegisterController = async ({ tag }) => {
               id: dados,
             },
           },
+          order: {
+            connect: {
+              id_order: orderId,
+            },
+          },
         },
       });
       return {
@@ -71,7 +86,7 @@ const RegisterController = async ({ tag }) => {
         message: "Entrada registrada com sucesso",
         data: register,
       };
-    }
+    
   } catch (error) {
     console.error("Erro ao processar dados:", error);
     return {
@@ -100,7 +115,8 @@ const GetOrdersByTag = async (tag) => {
     return {
       success: true,
       message: "Tag encontrada com Ordem de Serviço",
-      data:user.service_orders,};
+      data: user.service_orders,
+    };
   } catch (error) {
     console.error("Error fetching orders by tag:", error);
     return {
@@ -109,6 +125,4 @@ const GetOrdersByTag = async (tag) => {
     };
   }
 };
-
-
 module.exports = { RegisterController, GetOrdersByTag };

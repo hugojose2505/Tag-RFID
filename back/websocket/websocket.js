@@ -22,7 +22,7 @@ const handleWebSocket = (server) => {
           currentTag = "";
           console.log("Tag RFID limpa");
           client.sendUTF(JSON.stringify({ tag: "" }));
-        }, 5000);
+        }, 10000);
       }
     });
 

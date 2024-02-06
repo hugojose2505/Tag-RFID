@@ -19,7 +19,14 @@ router.get("/register", async (req, res) => {
         updated_at: true,
         delete_at: true,
         user: true,
+        order: {
+          select: {
+            id_order: true,
+            description: true,
+          }
+        }
       },
+
     });
     res.json(tags);
   } catch (error) {
@@ -43,6 +50,29 @@ router.get("/tags", async (req, res) => {
   } catch (error) {
     console.error("Erro ao obter tags:", error);
     res.status(500).json({ error: "Erro ao obter tags" });
+  }
+});
+
+router.get("/tags/:tag", async (req, res) => {
+  try {
+    const { tag } = req.params;
+    const user = await prisma.user.findUnique({
+      where: { tag: tag },
+      select: {
+        name: true,
+        id: true,
+        cpf: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found for the given tag" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user data by tag:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
@@ -99,8 +129,8 @@ router.post("/associate-tag", async (req, res) => {
 
 router.put("/register", async (req, res) => {
   try {
-    const { id_user, tag, input, exit , order} = req.body;
-    const result = await RegisterController({ id_user, tag, order });
+    const { id_user, tag,  orderId } = req.body;
+    const result = await RegisterController({ id_user, tag, orderId });
     res.json(result);
   } catch (error) {
     console.error("Error processing data:", error);
@@ -174,6 +204,8 @@ router.get("/orders", async (req, res) => {
         users: {
           select: {
             name: true,
+            id: true,
+            tag: true,
           },
         },
       },
@@ -181,27 +213,6 @@ router.get("/orders", async (req, res) => {
     res.json(orders);
   } catch (error) {
     console.error("Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-router.get("/orders/:idOrder/users", async (req, res) => {
-  try {
-    const order = await prisma.serviceOrder.findUnique({
-      where: { id_order: req.params.idOrder },
-      include: {
-        users: {
-          select: {
-            id_user: true,
-          },
-        },
-      },
-    });
-    const associatedUsers = order?.users.map((user) => user.id_user) || [];
-    const orderDescription = order?.description || "";
-    res.json({ IdUsers: associatedUsers, Description: orderDescription });
-  } catch (error) {
-    console.error("Erro ao obter usuários associados à OS:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });

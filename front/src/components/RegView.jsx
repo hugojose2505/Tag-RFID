@@ -22,7 +22,7 @@ const RegView = () => {
       });
   }, []);
 
-const openModal = (reading) => {
+  const openModal = (reading) => {
     setSelectedReading(reading);
     setModalIsOpen(true);
   };
@@ -54,7 +54,6 @@ const openModal = (reading) => {
             <p className="mb-2 text-green-600 font-bold">
               <span>Entrada:</span> {formatDateTime(reading.created_at)}
             </p>
-
             {reading.exit && (
               <>
                 <p className="mb-2 text-red-700 font-bold">
@@ -63,6 +62,10 @@ const openModal = (reading) => {
               </>
             )}
             <p className="mb-2">
+            <p className="mb-2">
+              <span className="font-bold">Descrição da OS:</span>{" "}
+              {reading.order.description}
+            </p>
               <span className="font-bold">Tag:</span> {reading.user.tag}
             </p>
           </li>
@@ -103,6 +106,10 @@ const openModal = (reading) => {
             <p>
               <span className="font-bold">ID do Registro:</span>{" "}
               {selectedReading.id_register}
+            </p>
+            <p className="mb-2">
+              <span className="font-bold">Order ID:</span>{" "}
+              {selectedReading.order.id_order}
             </p>
             <button
               onClick={closeModal}
