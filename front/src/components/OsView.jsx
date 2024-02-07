@@ -14,7 +14,6 @@ const OrderView = () => {
       .get("http://localhost:8082/orders")
       .then((response) => {
         setOrders(response.data);
-        console.log(response.data);
       })
       .catch((error) => {
         console.error("Error fetching orders:", error);
@@ -87,16 +86,13 @@ const OrderView = () => {
             <div>
               <p className="font-bold">ID da Ordem: {selectedOrder.id_order}</p>
               <p>Descrição: {selectedOrder.description}</p>
-
-            
-                <ul>
-                  {selectedOrder.users.map((user) => (
-                    <li key={user.name}>
-                      <p className="font-bold">Usuário Associado: {user.name}</p>
-                      {/* Adicione outros detalhes do usuário conforme necessário */}
-                    </li>
-                  ))}
-                </ul>
+              <ul>
+                {selectedOrder.users.map((user) => (
+                  <li key={user.name}>
+                    <p className="font-bold">Usuário Associado: {user.name}</p>
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
           <div className="flex justify-center mr-5 gap-4 mt-8">

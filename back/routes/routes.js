@@ -223,14 +223,22 @@ router.delete("/orders/:orderId", async (req, res) => {
   try {
     const order = await prisma.serviceOrder.findUnique({
       where: { id_order: orderId },
+      include: {
+        register_hours: true,
+        users: true,
+      },
     });
 
     if (!order) {
       return res.status(404).json({ error: "Ordem de Serviço não encontrada" });
     }
-    await prisma.serviceOrder.deleteMany({
+
+    // Delete related records first
+    await prisma.register_hours.deleteMany({
       where: { id_order: orderId },
     });
+
+    // Then delete the main order 
     await prisma.serviceOrder.delete({
       where: { id_order: orderId },
     });

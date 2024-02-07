@@ -48,8 +48,7 @@ function JoinOS() {
         orderId,
         userId,
       });
-      console.log(response.data);
-
+  
       setSavedMessage("Ordem associada com sucesso!");
       openModal();
       fetchOrders();

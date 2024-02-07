@@ -13,7 +13,6 @@ const EnterLeft = () => {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   
-
   const socketUrl = "ws://localhost:8082/";
   const { lastMessage } = useWebSocket(socketUrl);
 

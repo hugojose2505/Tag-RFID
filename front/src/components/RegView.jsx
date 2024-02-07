@@ -41,36 +41,36 @@ const RegView = () => {
       <h1 className="text-2xl font-bold mb-4 items-center justify-center text-center">
         Registro de Entrada e saida
       </h1>
-      <ul className="flex flex-wrap gap-2 mb-4 ml-4">
-        {readings.map((reading) => (
-          <li
-            key={reading.id_register}
-            className="border rounded-lg p-4 mb-4 cursor-pointer bg-white hover:bg-gray-200"
-            onClick={() => openModal(reading)}
-          >
-            <p className="mb-2">
-              <span className="font-bold">Nome:</span> {reading.user.name}
-            </p>
-            <p className="mb-2 text-green-600 font-bold">
-              <span>Entrada:</span> {formatDateTime(reading.created_at)}
-            </p>
-            {reading.exit && (
-              <>
-                <p className="mb-2 text-red-700 font-bold">
-                  <span>Saída:</span> {formatDateTime(reading.exit)}
-                </p>
-              </>
-            )}
-            <p className="mb-2">
-            <p className="mb-2">
-              <span className="font-bold">Descrição da OS:</span>{" "}
-              {reading.order.description}
-            </p>
+      <div className="flex flex-col mt-6">
+        <ul className="flex flex-wrap gap-2 mb-4 ml-4">
+          {readings.map((reading) => (
+            <li
+              key={reading.id_register}
+              className="border rounded-lg p-4 mb-4 cursor-pointer bg-white hover:bg-gray-200"
+              onClick={() => openModal(reading)}
+            >
+              <p className="mb-2">
+                <span className="font-bold">Nome:</span> {reading.user.name}
+              </p>
+              <p className="mb-2 text-green-600 font-bold">
+                <span>Entrada:</span> {formatDateTime(reading.created_at)}
+              </p>
+              {reading.exit && (
+                <>
+                  <p className="mb-2 text-red-700 font-bold">
+                    <span>Saída:</span> {formatDateTime(reading.exit)}
+                  </p>
+                </>
+              )}
+              <p className="mb-2">
+                <span className="font-bold">Descrição da OS:</span>{" "}
+                {reading.order.description}
+              </p>
               <span className="font-bold">Tag:</span> {reading.user.tag}
-            </p>
-          </li>
-        ))}
-      </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <Modal
         isOpen={modalIsOpen}
