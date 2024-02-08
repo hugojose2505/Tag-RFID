@@ -37,7 +37,7 @@ const RegView = () => {
   };
 
   return (
-    <div className=" m-auto mt-32 flex ml-14 flex-col max-sm:ml-0">
+    <div className=" m-auto mt-32 flex ml-14 flex-col max-sm:ml-0 ">
       <h1 className="text-2xl font-bold mb-4 items-center justify-center text-center">
         Registro de Entrada e saida
       </h1>
@@ -75,7 +75,7 @@ const RegView = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className=" bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md max-sm:mx-2"
+        className=" bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md max-sm:mx-2 "
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
       >
         {selectedReading && (

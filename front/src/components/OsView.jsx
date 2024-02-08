@@ -57,7 +57,7 @@ const OrderView = () => {
   };
 
   return (
-    <div className="m-auto mt-32 flex ml-auto flex-col max-sm:ml-0 items-center justify-center p-2">
+    <div className="m-auto mt-32 flex ml-auto flex-col max-sm:ml-0 items-center justify-center  ">
       <h2 className="text-2xl font-bold mb-4 ">Ordens de Serviço</h2>
       <ul className="flex flex-wrap  gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  ">
         {orders.map((order) => (
@@ -75,7 +75,7 @@ const OrderView = () => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Detalhes da Ordem de Serviço"
-        className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md"
+        className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md max-sm:mx-2"
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
       >
         <div className="flex flex-col">
