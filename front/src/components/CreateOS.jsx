@@ -7,8 +7,6 @@ const CreateOrder = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [savedMessage, setSavedMessage] = useState('');
   const [orderId, setOrderId] = useState(null);
-  const [errorModalOpen, setErrorModalOpen] = useState(false);
-
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -16,37 +14,40 @@ const CreateOrder = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setErrorModalOpen(false); 
     setOrderId(null);
   };
 
   const handleCreateOrder = async () => {
     if (!orderDescription.trim()) {
-        setSavedMessage('Por favor, forneça uma descrição para criar a Ordem de Serviço.');
-        setErrorModalOpen(true);
-        return;
-      }
-  
+      setSavedMessage('Por favor, forneça uma descrição para criar a Ordem de Serviço.');
+      openModal();
+      return;
+    }
+
     try {
       const response = await axios.post('http://localhost:8082/createOS/', {
         description: orderDescription,
       });
 
-      const createdOrderId = response.data.data.id_order;
-    
-      setOrderId(createdOrderId);
+      const { message, data } = response.data;
 
-      setSavedMessage(`OS criada com sucesso! ID: ${createdOrderId}`);
+      if (data) {
+        setOrderId(data.id_order);
+        setSavedMessage(message);
+      } else {
+        setSavedMessage(message);
+      }
+
       openModal();
     } catch (error) {
       console.error('Error:', error.response.data);
-      setSavedMessage('Erro ao criar OS!');
+      setSavedMessage("Erro! Já existe uma OS com essa descrição");
       openModal();
     }
   };
 
   return (
-    <div className=" m-auto ml-4 mr-4  p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52">
+    <div className="m-auto ml-4 mr-4 p-8 bg-slate-300 border border-gray-300 rounded-lg mt-52">
       <h1 className="text-3xl font-bold mb-4">Criar Ordem de Serviço</h1>
 
       <div className="mb-4">
@@ -61,19 +62,28 @@ const CreateOrder = () => {
           onChange={(e) => setOrderDescription(e.target.value)}
         />
       </div>
-      <button className=" bg-blue-500 text-white py-2 px-4 rounded" onClick={handleCreateOrder}>
+      <button
+        className="bg-blue-500 text-white py-2 px-4 rounded"
+        onClick={handleCreateOrder}
+      >
         Criar Ordem de Serviço
       </button>
 
       <Modal
-        isOpen={isModalOpen || errorModalOpen}
+        isOpen={isModalOpen}
         onRequestClose={closeModal}
-        contentLabel="Tag Saved"
+        contentLabel="Mensagem"
         className="bg-white p-6 rounded-lg shadow-lg mx-auto my-32 max-w-screen-md"
         overlayClassName="overlay fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
       >
         <p className='font-bold'>{savedMessage}</p>
-        <button onClick={closeModal} className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center items-center">
+        {orderId && (
+          <p className='mt-2'>ID da Ordem de Serviço: {orderId}</p>
+        )}
+        <button
+          onClick={closeModal}
+          className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Fechar
         </button>
       </Modal>

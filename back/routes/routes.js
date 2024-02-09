@@ -26,7 +26,6 @@ router.get("/register", async (req, res) => {
           }
         }
       },
-
     });
     res.json(tags);
   } catch (error) {
@@ -44,7 +43,6 @@ router.get("/tags", async (req, res) => {
         cpf: true,
         id: true,
       },
-    
     });
     res.json(tags);
   } catch (error) {
@@ -64,11 +62,9 @@ router.get("/tags/:tag", async (req, res) => {
         cpf: true,
       },
     });
-
     if (!user) {
       return res.status(404).json({ error: "User not found for the given tag" });
     }
-
     res.json(user);
   } catch (error) {
     console.error("Error fetching user data by tag:", error);
@@ -78,19 +74,16 @@ router.get("/tags/:tag", async (req, res) => {
 
 router.delete("/tags/:id", async (req, res) => {
   const tagId = req.params.id;
-
   try {
     const tag = await prisma.user.findUnique({
       where: { id: tagId },
     });
-
     if (!tag) {
       return res.status(404).json({ error: "Tag não encontrada" });
     }
     await prisma.user.delete({
       where: { id: tagId },
     });
-
     res.json({ message: "Tag deletada com sucesso" });
   } catch (error) {
     console.error("Erro ao deletar a tag:", error);
@@ -104,7 +97,6 @@ router.post("/associate-tag", async (req, res) => {
     const existingTag = await prisma.user.findUnique({
       where: { tag: tag },
     });
-
     const existingCPF = await prisma.user.findUnique({
       where: { cpf: cpf },
     });
@@ -114,7 +106,6 @@ router.post("/associate-tag", async (req, res) => {
     if (existingCPF) {
       return res.status(400).json({ error: "CPF already created" });
     }
-
     const savedData = await createTag({ tag, name, cpf });
     return res.json({
       success: true,
@@ -152,8 +143,15 @@ router.get("/ordersByTag/:tag", async (req, res) => {
 router.post("/createOS", async (req, res) => {
   try {
     const { description } = req.body;
-    const order = await OsController(description);
-    res.status(201).json(order);
+    const orderResult = await OsController(description);
+    if (orderResult.success) {
+      res.status(201).json({
+        message: "Ordem de Serviço criada com sucesso!",
+        data: orderResult.data,
+      });
+    } else {
+      res.status(400).json({ error: orderResult.message });
+    }
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -219,7 +217,6 @@ router.get("/orders", async (req, res) => {
 
 router.delete("/orders/:orderId", async (req, res) => {
   const orderId = req.params.orderId;
-
   try {
     const order = await prisma.serviceOrder.findUnique({
       where: { id_order: orderId },
@@ -228,21 +225,15 @@ router.delete("/orders/:orderId", async (req, res) => {
         users: true,
       },
     });
-
     if (!order) {
       return res.status(404).json({ error: "Ordem de Serviço não encontrada" });
     }
-
-    // Delete related records first
     await prisma.register_hours.deleteMany({
       where: { id_order: orderId },
     });
-
-    // Then delete the main order 
     await prisma.serviceOrder.delete({
       where: { id_order: orderId },
     });
-
     res.json({ message: "Ordem de Serviço deletada com sucesso" });
   } catch (error) {
     console.error("Erro ao deletar a Ordem de Serviço:", error);

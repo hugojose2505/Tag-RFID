@@ -29,6 +29,9 @@ const RegisterController = async ({ tag, orderId }) => {
         user: {
           id: dados,
         },
+        order:{
+          id_order: orderId
+        },
         exit: null,
       },
     });

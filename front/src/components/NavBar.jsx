@@ -31,7 +31,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`p-0  fixed w-full flex flex-col  lg:flex-row max-sm:ml-0  ${
+      className={`p-0  fixed w-full flex flex-col  lg:flex-row max-sm:ml-0 over  ${
         isScrolled ? "bg-white border border-gray-200 max-sm:hidden" : ""
       }`}
     >
@@ -51,7 +51,7 @@ const Navbar = () => {
         </button>
         <div
           className={`lg:flex lg:space-x-4 text-center flex-col lg:flex-row gap-8 max-sm:p-8 max-lg:bg-white  ${
-            isMenuOpen ? "flex fixed max-sm:bg-white" : "hidden "
+            isMenuOpen ? "flex fixed max-sm:bg-white " : "hidden "
           } top-16 left-0 right-0 p-5`}
         >
           <Link

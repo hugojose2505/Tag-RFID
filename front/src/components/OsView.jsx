@@ -57,7 +57,7 @@ const OrderView = () => {
   };
 
   return (
-    <div className="m-auto mt-32 flex ml-auto flex-col max-sm:ml-0 items-center justify-center  ">
+    <div className="m-auto mt-32 flex ml-6 flex-col max-sm:ml-0 items-center justify-center  ">
       <h2 className="text-2xl font-bold mb-4 ">Ordens de Serviço</h2>
       <ul className="flex flex-wrap  gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3  ">
         {orders.map((order) => (
